@@ -1,4 +1,4 @@
-<section id="footer">
+<section id="footer" style="background: #232b37">
     <div class="container mt-5">
         <div class="row mt-5 pt-5">
             <div class="col-md-4">
@@ -7,7 +7,7 @@
                     <img width="auto" height="60px"
                     src="{{asset('/')}}assets/web/media/brand-logo.png" alt="">
                 </a>
-                <h3 class="follow_us my-3" style="color: #ecb617;">Follow us</h3>
+                <h3 class="follow_us my-3" style="color: #f5f5f5;">Follow us</h3>
                 <div class="footerItem">
                     <a class="ps-0" href="{{$social_link->fb_link}}" target="_blank"><i
                             class="fa-brands fa-square-facebook"></i></a>
@@ -18,17 +18,17 @@
                 </div>
             </div>
             <div class="col-md-4 mt-3 text-white">
-                <div class="d-flex gap-3 align-items-center">
-                    <h3><i class="fa-solid fa-phone"></i></h3>
-                    <h3 class="numberUnderline">{{$social_link->mobile}}</h3>
+                <div class="d-flex text-light gap-3 align-items-center">
+                    <h3 style="color: white;"><i class="fa-solid fa-phone"></i></h3>
+                    <h3 class="numberUnderline text-light">{{$social_link->mobile}}</h3>
                 </div>
                 <div class="d-flex gap-3 align-items-center">
-                    <h3><i class="fa-solid fa-envelope"></i></h3>
-                    <h3>reservation@hotelgrace21.com</h3>
+                    <h3 style="color: white;"><i class="fa-solid fa-envelope"></i></h3>
+                    <h3 class="text-light">reservation@hotelgrace21.com</h3>
                 </div>
                 <div class="d-flex gap-3 align-items-center">
-                    <h3><i class="fa-solid fa-location-dot"></i></h3>
-                    <h3 class="pt-2 pb-0">
+                    <h3 style="color: white;"><i class="fa-solid fa-location-dot"></i></h3>
+                    <h3 class="pt-2 pb-0 text-light">
                         House #1 & 3, Road #21, Nikunja 2,
                         Dhaka-1229, Bangladesh
                     </h3>

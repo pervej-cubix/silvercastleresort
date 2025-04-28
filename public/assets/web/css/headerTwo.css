@@ -1,0 +1,62 @@
+.btn_menuTwo {
+    width: 100px;
+    background-color: rgb(96, 121, 120);
+    position: fixed;
+}
+
+#click_fixed {
+    cursor: pointer;
+    position: fixed;
+    z-index: 7;
+    width: 100px;
+    height: 100px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
+    padding-top: 30px;
+    background-color: rgb(96, 121, 120);
+}
+
+#click_fixed.open:hover #stick1 {
+    width: 18px;
+    background-color: #ecb617;
+}
+#click_fixed.open:hover #stick2 {
+    width: 31px;
+    background-color: #ecb617;
+}
+#click_fixed.open:hover #stick3 {
+    width: 25px;
+    background-color: #ecb617;
+}
+#click_fixed.open:hover .label_stick {
+    color: #ecb617;
+}
+
+.booknowHomeTwo {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 7;
+    width: 100px;
+    height: 100px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
+    padding-top: 25px;
+    background-color: rgb(96, 121, 120);
+}
+
+.booknowHomeTwo:hover {
+    color: gold;
+}
+
+.booknow {
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 13px;
+    letter-spacing: 2px;
+    font-size: 14px !important;
+}

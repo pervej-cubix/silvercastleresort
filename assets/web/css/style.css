@@ -34,7 +34,7 @@ body {
     bottom: -5px;
     left: 50%; /* Center it initially */
     transform: translateX(-50%); /* Adjust to center */
-    background-color: orange;
+    background-color: #f56040;
     transition: width 0.3s ease, left 0.3s ease; /* Transition for both */
 }
 
@@ -42,7 +42,7 @@ body {
     width: 100%; /* Expand to full width */
     left: 50%; /* Keep it centered */
     transform: translateX(-50%); /* Maintain center alignment */
-    background-color: #ecb617;
+    background-color: #f56040;
 }
 
 #animatedElement {
@@ -157,18 +157,18 @@ video {
 
 #click_trigger.open:hover #stick1 {
     width: 18px;
-    background-color: #ecb617;
+    background-color: #f56040;
 }
 #click_trigger.open:hover #stick2 {
     width: 31px;
-    background-color: #ecb617;
+    background-color: #f56040;
 }
 #click_trigger.open:hover #stick3 {
     width: 25px;
-    background-color: #ecb617;
+    background-color: #f56040;
 }
 #click_trigger.open:hover .label_stick {
-    color: #ecb617;
+    color: #f56040;
 }
 
 .label_stick {
@@ -202,7 +202,7 @@ video {
 
 .menuUnderline:hover::after {
     width: 50%;
-    background-color: #ecb617;
+    background-color: #f56040;
 }
 
 .menuUnderline.active {
@@ -264,7 +264,7 @@ section:has(.overlay) .btn_menuTwo {
     padding: 20px 8px 2px 8px;
     text-decoration: none;
     font-size: 15px;
-    color: #ecb617;
+    color: #f56040;
     text-align: left;
     display: block;
     transition: 0.3s;
@@ -284,7 +284,7 @@ section:has(.overlay) .btn_menuTwo {
     top: 1px;
     /* right: 45px; */
     font-size: 60px;
-    color: #ecb617;
+    color: #f56040;
     text-decoration: none;
     z-index: 2;
     background-color: transparent;
@@ -338,7 +338,7 @@ section:has(.overlay) .btn_menuTwo {
 }
 
 .fixed {
-    background-color: rgb(96, 121, 120); /* Change this to your desired color */
+    background-color: #232b37; /* Change this to your desired color */
     z-index: 1000; /* Ensure it stays on top of other elements */
 }
 
@@ -352,7 +352,7 @@ section:has(.overlay) .btn_menuTwo {
 .logo {
     position: absolute;
     top: 20px;
-    left: 46%;
+    left: 45%;
     margin: 0 auto;
     z-index: 3;
 }
@@ -395,11 +395,11 @@ section:has(.overlay) .btn_menuTwo {
 }
 
 .booknowHome:hover {
-    color: gold;
+    color: #f56040;
 }
 
 .fa-calendar-days:hover {
-    color: gold;
+    color: #f56040;
 }
 
 /* Offer section css*/
@@ -425,7 +425,7 @@ section:has(.overlay) .btn_menuTwo {
 }
 
 .offer:hover {
-    color: gold;
+    color: #f56040;
 }
 
 .offerImg {
@@ -555,13 +555,13 @@ section:has(.overlay) .btn_menuTwo {
 .btn_de {
     width: 145px;
     margin: 0 auto;
-    background-color: #ecb617;
+    background-color: #f56040;
     color: white;
     border: none;
 }
 
 .btn_de:hover {
-    background-color: rgb(96, 121, 120);
+    background-color: #232b37;
 }
 
 .owl-nav {
@@ -717,7 +717,7 @@ section:has(.overlay) .btn_menuTwo {
     height: 2px;
     bottom: -5px; /* Adjust this value to add margin below the text */
     left: 0;
-    background-color: orange;
+    background-color: #f56040;
     transition: width 0.3s ease;
 }
 
@@ -732,7 +732,7 @@ section:has(.overlay) .btn_menuTwo {
 
 .diningHeading {
     font-size: 40px;
-    color: orange;
+    color: #f56040;
     padding-bottom: 5px;
     margin: 5px;
 }
@@ -746,7 +746,7 @@ section:has(.overlay) .btn_menuTwo {
     left: 50px;
     text-align: center;
     font-size: 30px;
-    color: orange;
+    color: #f56040;
 }
 
 .threeD {
@@ -758,7 +758,7 @@ section:has(.overlay) .btn_menuTwo {
     left: 150px;
     text-align: center;
     font-size: 30px;
-    color: orange;
+    color: #f56040;
 }
 
 .diningUnderline {
@@ -837,7 +837,7 @@ section:has(.overlay) .btn_menuTwo {
     left: 50px;
     text-align: center;
     font-size: 30px;
-    color: orange;
+    color: #f56040;
     padding-top: 15px;
 }
 
@@ -850,7 +850,7 @@ section:has(.overlay) .btn_menuTwo {
     left: 150px;
     text-align: center;
     font-size: 30px;
-    color: orange;
+    color: #f56040;
     padding-top: 15px;
 }
 
@@ -988,12 +988,12 @@ section:has(.overlay) .btn_menuTwo {
 .contactHeading {
     font-size: large;
     font-weight: 400;
-    color: orange;
+    color: #f56040;
 }
 .contactDescription {
     font-size: medium;
     font-weight: 400;
-    color: orange;
+    color: #f56040;
 }
 
 .formHeading {
@@ -1203,7 +1203,7 @@ section:has(.overlay) .btn_menuTwo {
 }
 
 .roomdetails {
-    color: orange;
+    color: #f56040;
     font-size: 20px;
 }
 
@@ -1221,7 +1221,7 @@ section:has(.overlay) .btn_menuTwo {
     bottom: -5px; /* Adjust this value to add margin below the text */
     left: 50%; /* Start at the horizontal center */
     transform: translateX(-50%); /* Center the line */
-    background-color: orange;
+    background-color: #f56040;
     transition: width 0.3s ease;
 }
 
@@ -1233,7 +1233,7 @@ section:has(.overlay) .btn_menuTwo {
     display: flex;
     justify-content: center; /* Center all items horizontally */
     gap: 20px; /* Optional: add space between items */
-    color: orange;
+    color: #f56040;
     font-size: 16px;
     font-weight: normal;
 }
@@ -1292,7 +1292,7 @@ section:has(.overlay) .btn_menuTwo {
     text-align: left;
     font-size: 17px;
     padding: 20px 0px 10px 0px;
-    color: #ecb617;
+    color: #f56040;
 }
 
 .text-white p {
@@ -1300,7 +1300,7 @@ section:has(.overlay) .btn_menuTwo {
     text-align: left;
     font-size: 14px;
     padding-bottom: 7px;
-    color: #ecb617;
+    color: #f56040;
 }
 
 .pagelink h3 {
@@ -1334,7 +1334,7 @@ section:has(.overlay) .btn_menuTwo {
     text-decoration: none;
     margin-top: 19px;
     font-size: 18px;
-    color: #ecb617;
+    color: #f56040;
 }
 
 .numberUnderline::after {

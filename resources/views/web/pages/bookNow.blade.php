@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7 text-center m-auto">
-                <h3 style="color: #607978; font-weight: bold;">Book Now</h3>
+                <h3 style="color: #232B37; font-weight: bold;">Book Now</h3>
                 <p class="bookNowText">
                     We would like to welcome you to Hotel Grace21. Please fill in the following booking form
                     and

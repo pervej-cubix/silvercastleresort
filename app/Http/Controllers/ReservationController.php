@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ReservationMail;
+use App\Mail\ReservationApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -44,7 +45,8 @@ class ReservationController extends Controller
         DB::beginTransaction(); // 🔥 start transaction
         try {
             $reservation = Reservation::create($data);
-
+            
+            // Send Mail to Website
             Mail::to('pervej@cubixbd.com')->send(new ReservationMail($data));
             DB::commit(); 
     
@@ -213,6 +215,27 @@ class ReservationController extends Controller
         ]);
     }
 
+    public function sendGuestMail($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+    
+        // Prepare data for the mail
+        $data = [
+            'email' => $reservation->email,
+            'title' => $reservation->title,
+            'first_name' => $reservation->first_name,
+            'last_name' => $reservation->last_name,
+            'room_type' => $reservation->room_type,
+            'checkin_date' => $reservation->checkin_date,
+            'checkout_date' => $reservation->checkout_date,
+        ];
+
+        // Send email
+        Mail::to($data['email'])->send(new ReservationApproved($data));
+    
+        return back()->with('success', 'Reservation approval email sent successfully!');
+    }
+
     public function reservationCheck(Request $request){         
         $data = [
             'checkin_date' => $request->checkin,
@@ -294,6 +317,10 @@ class ReservationController extends Controller
     {
         $query = Reservation::query();
 
+        if($request->filled('checkin_date')){
+            redirect()->back()->with('error', 'Reservation status updated successfully.');
+        }
+
         if ($request->filled('checkin_date')) {
             $query->whereDate('checkin_date', '>=', $request->checkin_date);
         }
@@ -310,7 +337,7 @@ class ReservationController extends Controller
             $query->where('reservation_status', $request->reservation_status);
         }
 
-        $reservations = $query->orderBy('checkin_date')->get();
+        $reservations = $query->orderBy('checkin_date')->paginate(10);
 
         return view('admin.pages.reservation_manage.manage', compact('reservations'));
     }

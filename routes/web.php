@@ -76,6 +76,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     // Route::get('/reservations/{id}', action: [ReservationController::class, 'edit'])->name('reservation-edit');
     Route::put('/reservations/{id}/status', [ReservationController::class, 'updateStatus'])->name('reservation.status');
     Route::delete('/reservations.destry/{id}', action: [ReservationController::class, 'delete'])->name('reservation.destroy');
+    Route::post('/reservation/{id}/send-guest-mail', [ReservationController::class, 'sendGuestMail'])->name('reservation.sendGuestMail');
 
     Route::get('/promotion-manage', action: [PromotionController::class, 'index'])->name('promotion-view');
     Route::post('/promotion-store', action: [PromotionController::class, 'store'])->name('promotion-store');

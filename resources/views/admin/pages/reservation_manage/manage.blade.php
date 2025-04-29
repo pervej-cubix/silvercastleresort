@@ -95,8 +95,19 @@
                     </div> --}}
 
                         <div>                        
-                            <table id="example3" class="table table-bordered text-nowrap border-bottom">
+                            <table id="reservation_manage" class="table table-bordered text-nowrap border-bottom">
                                 <thead>
+                                    @php
+                                    $totalAssigned = $reservations->where('reservation_status', 1)->count();
+                                    $totalUnAssigned = $reservations->where('reservation_status', 0)->count();
+                                @endphp
+
+                                <tr>
+                                    <td colspan="9" class="text-end fw-bold bg-light">
+                                        Total Assigned Rooms: {{ $totalAssigned }} |
+                                        Total Unassigned Rooms: {{ $totalUnAssigned }}
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th class="border-bottom-0">Sl No.</th>
                                     <th class="border-bottom-0">Guest Name</th>
@@ -105,10 +116,12 @@
                                     <th class="border-bottom-0">Check Out</th>
                                     <th class="border-bottom-0">Phone</th>
                                     <th class="border-bottom-0">Email</th>
+                                    <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    
                                 @foreach($reservations as $item) 
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>                   
@@ -118,17 +131,24 @@
                                         <td>{{$item->checkout_date}}</td> 
                                         <td>{{$item->phone}}</td>
                                         <td>{{$item->email}}</td>
-                                        <td class="d-flex">
+                                        <td>
                                             <form action="{{ route('reservation.status', $item->id) }}" method="POST">
                                                 @csrf 
                                                 @method('PUT')
                                                 <select name="reservation_status" onchange="this.form.submit()" class="form-select form-select-sm">
-                                                    <option value="1" {{ $item->reservation_status == 1 ? 'selected' : '' }}>Assign</option>
-                                                    <option value="0" {{ $item->reservation_status == 0 ? 'selected' : '' }}>UnAssign</option>
+                                                    <option value="1" {{ $item->reservation_status == 1 ? 'selected' : '' }}>Approved</option>
+                                                    <option value="0" {{ $item->reservation_status == 0 ? 'selected' : '' }}>Pending</option>
                                                 </select>
                                                 
+                                            </form>                                        
+                                        </td> 
+                                        <td class="d-flex gap-2">
+                                            <form method="POST" action="{{ route('reservation.sendGuestMail', $item->id) }}">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Did you approve the reservation?')">
+                                                    <i class="fa-solid fa-envelope"></i>&nbsp;Send Mail
+                                                </button>
                                             </form>
-        
                                             <form method="post" action="{{ route('reservation.destroy', $item->id) }}">
                                                 @csrf
                                                 @method('DELETE')
@@ -136,21 +156,11 @@
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
-                                        </td>                                                                          
+                                        </td>                                                                         
                                     </tr>
                                 @endforeach
 
-                                @php
-                                    $totalAssigned = $reservations->where('reservation_status', 1)->count();
-                                    $totalUnAssigned = $reservations->where('reservation_status', 0)->count();
-                                @endphp
-
-                                <tr>
-                                    <td colspan="8" class="text-end fw-bold bg-light">
-                                        Total Assigned Rooms: {{ $totalAssigned }} |
-                                        Total Unassigned Rooms: {{ $totalUnAssigned }}
-                                    </td>
-                                </tr>
+                             
                                 </tbody>
                             </table>
                         </div>                   

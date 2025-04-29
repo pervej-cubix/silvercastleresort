@@ -39,3 +39,11 @@ flatpickr("#checkin", {
 const checkoutPicker = flatpickr("#checkout", {
     dateFormat: "Y-m-d",
 });
+
+$(document).ready(function () {
+    $("#reservation_manage").DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+    });
+});

@@ -2,7 +2,6 @@
 @section('content')
 @include('sweetalert::alert')
 
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -190,7 +189,7 @@
                     <!-- Submit Button -->
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <button type="submit" style="background-color: #607978;"
+                            <button type="submit" style="background-color: #232B37;"
                                 class="btn btn-success float-end text-white" id="submitBtn" style="font-size:18px"> <i
                                     class="fa-solid fa-location-arrow"></i> Book Now</button>
                         </div>
@@ -207,20 +206,20 @@
             <div class="col-md-4 text-center">
                 <div class="contactIcon"><i class="fa-solid fa-location-dot"></i></div>
                 <div class="contactHeading">Address</div>
-                <h3 class="pt-2 pb-0 contactDescription">House-5, Road-23/A, Gulshan-1 <br />Dhaka-1212, Bangladesh.
+                <h3 class="pt-2 pb-0 contactDescription">House #1 & 3, Road #21, Nikunja 2,<br/> Dhaka-1229, Bangladesh
                 </h3>
             </div>
             <div class="col-md-4 text-center">
                 <div class="contactIcon"><i class="fa-solid fa-phone"></i></div>
                 <div class="contactHeading">Phone Support <small>24 Hours a Day</small></div>
                 <div class="contactDescription">01756424224</div>
-                <div class="contactDescription">reservation@crystalcrownhotelbd.com</div>
+                <div class="contactDescription">reservation@hotelgrace21.com</div>
             </div>
             <div class="col-md-4 text-center">
                 <div class="contactIcon"><i class="fa-solid fa-phone"></i></div>
                 <div class="contactHeading">Hotline</div>
                 <div class="contactDescription">01756424224</div>
-                <div class="contactDescription">reservation@crystalcrownhotelbd.com</div>
+                <div class="contactDescription">reservation@hotelgrace21.com</div>
             </div>
 
 </section>

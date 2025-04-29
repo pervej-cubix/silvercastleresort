@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reservation;
+use App\Models\AboutUs;
 
 class ReservationController extends Controller
 {
@@ -37,7 +38,7 @@ class ReservationController extends Controller
             'conversion_rate' => 1,
             'guest_source_id' => 1,
             'reference_id' => 29,
-            'reservation_status' => 1,
+            'reservation_status' => 0,
         ];
     
         DB::beginTransaction(); // 🔥 start transaction
@@ -202,7 +203,15 @@ class ReservationController extends Controller
                 'status' => $response->status ?? 'error'
             ]);
         }
-}
+    }
+
+    public function showReservation(Request $request){
+        
+        return view('admin.pages.reservation_manage.manage', [
+            'aboutUs'=> aboutUs::all(),
+            'reservations'=> Reservation::all(),
+        ]);
+    }
 
     public function reservationCheck(Request $request){         
         $data = [
@@ -216,7 +225,7 @@ class ReservationController extends Controller
         dd($data);
         exit();
     }
-
+    
     public function reservationCheckForApi(Request $request){        
         $apiUrl = env('API_URL');      
         $settingsUrl = "$apiUrl/settings";
@@ -279,5 +288,53 @@ class ReservationController extends Controller
         // Decode and return response
         $responseData = json_decode($availabilityCheckResponse, true);
         return response()->json($responseData);
+    }
+
+    public function index(Request $request)
+    {
+        $query = Reservation::query();
+
+        if ($request->filled('checkin_date')) {
+            $query->whereDate('checkin_date', '>=', $request->checkin_date);
+        }
+
+        if ($request->filled('checkout_date')) {
+            $query->whereDate('checkout_date', '<=', $request->checkout_date);
+        }
+
+        if ($request->filled('room_type')) {
+            $query->where('room_type', $request->room_type);
+        }
+
+        if ($request->filled('reservation_status')) {
+            $query->where('reservation_status', $request->reservation_status);
+        }
+
+        $reservations = $query->orderBy('checkin_date')->get();
+
+        return view('admin.pages.reservation_manage.manage', compact('reservations'));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $reservation = Reservation::findOrFail($id); // Retrieve the record or fail
+    
+        $reservation->reservation_status = $request->input('reservation_status'); // Set new status
+        $reservation->save(); // Save changes
+    
+        return redirect()->back()->with('success', 'Reservation status updated successfully.');
+    }
+
+    public function delete($id){
+        $reservation = Reservation::find($id);
+
+        if ($reservation)
+        {
+            $reservation->delete();
+            return back()->with('message', 'delete successfully');
+        }
+        else{
+            return back()->with('errorr', 'image not found');
+        }
     }
 }

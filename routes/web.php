@@ -70,6 +70,13 @@ Route::post('/logout', function () {
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'dashboard'])->name('dashboard');
+    
+    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservation.index');
+    Route::get('/manage-reservations', [ReservationController::class, 'showReservation'])->name('manage-reservation-view');
+    // Route::get('/reservations/{id}', action: [ReservationController::class, 'edit'])->name('reservation-edit');
+    Route::put('/reservations/{id}/status', [ReservationController::class, 'updateStatus'])->name('reservation.status');
+    Route::delete('/reservations.destry/{id}', action: [ReservationController::class, 'delete'])->name('reservation.destroy');
+
     Route::get('/promotion-manage', action: [PromotionController::class, 'index'])->name('promotion-view');
     Route::post('/promotion-store', action: [PromotionController::class, 'store'])->name('promotion-store');
     Route::get('/promotion-edit/{id}', action: [PromotionController::class, 'edit'])->name('promotion-edit');

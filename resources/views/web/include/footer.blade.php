@@ -39,7 +39,7 @@
                 <h3><a href="{{route('bookNow')}}" class="pagelinkunderline">Book Now </a></h3>
                 {{-- <h3><a href="{{route('virtualTours')}}" class="pagelinkunderline">Virtual Tours </a></h3> --}}
                 <h3><a href="{{route('photoGallery')}}" class="pagelinkunderline">Photo Gallery </a></h3>
-                <h3><a href="{{route('graceStars')}}" class="pagelinkunderline">Grace21 Stars</a></h3>
+                <h3><a href="{{route('accommodation')}}" class="pagelinkunderline">Accommodation</a></h3>
                 <h3><a href="{{route('contact')}}" class="pagelinkunderline">Contact Us </a></h3>
             </div>
         </div>

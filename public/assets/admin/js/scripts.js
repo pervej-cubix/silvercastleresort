@@ -25,3 +25,17 @@ window.addEventListener("DOMContentLoaded", (event) => {
         });
     }
 });
+
+flatpickr("#checkin", {
+    dateFormat: "Y-m-d",
+    onChange: function (selectedDates, dateStr, instance) {
+        // Set the minimum date of checkout as the selected checkin date + 1
+        let minDate = new Date(selectedDates[0]);
+        minDate.setDate(minDate.getDate() + 1);
+        checkoutPicker.set("minDate", minDate);
+    },
+});
+
+const checkoutPicker = flatpickr("#checkout", {
+    dateFormat: "Y-m-d",
+});

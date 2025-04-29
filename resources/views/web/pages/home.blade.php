@@ -26,7 +26,7 @@
                 <div class="row align-items-center">
                     <h2 class="about-heading-first mt-4"><b>about us</b></h2>
                     <div class="col-md-6 sm-12 lg-3">
-                        <h1 class="about-heading mb-4">{{ $item->title }}</h1>
+                        <h1 class="about-heading hedline mb-4">{{ $item->title }}</h1>
                         <p class="about-paragrape">
                             {{ $item->description }}
                         </p>

@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations.php artisan make:migration create_room_type_availability_table
+
      */
     public function up()
     {

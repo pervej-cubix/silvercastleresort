@@ -17,6 +17,7 @@ use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\StarsController;
 use App\Http\Controllers\VirtualTourController;
 use App\Http\Controllers\HotelPolicyController;
+use App\Http\Controllers\AvailableRoomController;
 use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -77,6 +78,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::put('/reservations/{id}/status', [ReservationController::class, 'updateStatus'])->name('reservation.status');
     Route::delete('/reservations.destry/{id}', action: [ReservationController::class, 'delete'])->name('reservation.destroy');
     Route::post('/reservation/{id}/send-guest-mail', [ReservationController::class, 'sendGuestMail'])->name('reservation.sendGuestMail');
+    Route::get('/create-reservations', [ReservationController::class, 'createAvailableReservation'])->name('create-reservation-view');
+    // CRUD for available rooms
+    Route::get('/available-room', [AvailableRoomController::class, 'index'])->name('available_room.index');
+    Route::get('/manage-available-rooms', [AvailableRoomController::class, 'showAvailableRoom'])->name('available_room-view');
+    Route::post('/available-room-store', [AvailableRoomController::class, 'store'])->name('available_room-store');
+    Route::get('/available-rooms/{date}', [AvailableRoomController::class, 'getAvailability']);
+    Route::delete('/available-rooms/reset', [AvailableRoomController::class, 'reset'])->name('available-rooms.reset');
 
     Route::get('/promotion-manage', action: [PromotionController::class, 'index'])->name('promotion-view');
     Route::post('/promotion-store', action: [PromotionController::class, 'store'])->name('promotion-store');

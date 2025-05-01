@@ -50,13 +50,11 @@
                     <div class="row">
                         <!-- Left Column -->
                         <div class="col-md-6">
-                            <!-- First Name -->
                             <div class="mb-3">
                                 <label for="datepicker">Check in</label>
                                 <input type="date" class="form-control formField reservation_formField" id="checkin"
                                     name="checkin" placeholder="Select Date" required>
                             </div>
-                            <!-- Email -->
                             <div class="mb-3">
                                 <label for="roomtype">Room Type</label>
                                 <select name="roomtype" class="form-select formField " id="roomtype" required>
@@ -87,17 +85,39 @@
                                 <label for="checkout">Check out</label>
                                     <input type="date" class="form-control formField reservation_formField" name="checkout"
                                     id="checkout" placeholder="Select Date" required>
-                            </div>
+                            </div>                            
                             <div class="mb-3">
-                                <label for="adult_no">No. of Adults </label>
-                                <input type="number" class="form-control formField reservation_formField"
-                                    name="adult_no" id="adult_no" placeholder="Enter your No. of Adults" max="10" required>
+                                <label for="roomtype">No Of Rooms</label>
+                                <select name="noOf_room" class="form-select formField " id="roomtype" required>
+                                    <option value="">-- Select --</option>
+                                    <option value="1">
+                                        1
+                                    </option>
+                                    <option value="2">
+                                        2
+                                    </option>
+                                    <option value="3">
+                                        3
+                                    </option>
+                                    <option value="4">
+                                        4
+                                    </option>
+                                    <option value="5">
+                                        5
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <!-- Right Column -->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="adult_no">No. of Adults</label>
+                                <input type="number" class="form-control formField reservation_formField"
+                                    name="adult_no" id="adult_no" placeholder="Enter your No. of Adults" max="10" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <!-- check out -->
                             <div class="mb-3">
                                 <label for="child_no">No. of Children</label>
@@ -105,7 +125,7 @@
                                     name="child_no" id="child_no" max="10" placeholder="No. of Children">
                             </div>
                         </div>
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-4">
                             <label for="country">Country</label>
                       
                             <select name="country" class="form-select formField" id="country" required>
@@ -127,13 +147,13 @@
                                 class="form-control reservation-data form-select formField"
                                 style="font-size: 15px; padding: auto 5px;">
                                 <option value=""> Select </option>
-                                <option value="1">MR.</option>
-                                <option value="2">MRS.</option>
-                                <option value="3">MS.</option>
-                                <option value="4">MR. &amp; MRS.</option>
-                                <option value="5">DR.</option>
-                                <option value="6">NOT APPLICABLE</option>
-                                <option value="7">MR. MRS.</option>
+                                <option value="MR.">MR.</option>
+                                <option value="MRS.">MRS.</option>
+                                <option value="MS">MS.</option>
+                                <option value="MR.">MR. &amp; MRS.</option>
+                                <option value="DR.">DR.</option>
+                                <option value="NOT APPLICABLE">NOT APPLICABLE</option>
+                                <option value="MR. MRS.">MR. MRS.</option>
                             </select>
                         </div>
                         <div class="col-md-5">

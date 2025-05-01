@@ -23,6 +23,7 @@ class ReservationController extends Controller
             'checkin_date' => $request->checkin,
             'checkout_date' => $request->checkout,
             'room_type' => $request->roomtype,
+            'noOf_room'=> 1,
             'pax_in' => $request->adult_no,
             'child_in' => $request->child_no,
             'country' => $request->country,
@@ -42,12 +43,12 @@ class ReservationController extends Controller
             'reservation_status' => 0,
         ];
     
-        DB::beginTransaction(); // 🔥 start transaction
+        DB::beginTransaction(); // 🔥 start transaction 
         try {
             $reservation = Reservation::create($data);
             
             // Send Mail to Website
-            Mail::to('pervej@cubixbd.com')->send(new ReservationMail($data));
+            // Mail::to('pervej@cubixbd.com')->send(new ReservationMail($data));
             DB::commit(); 
     
             return response()->json([
@@ -209,8 +210,7 @@ class ReservationController extends Controller
 
     public function showReservation(Request $request){
         
-        return view('admin.pages.reservation_manage.manage', [
-            'aboutUs'=> aboutUs::all(),
+        return view('admin.pages.room_reservation.manage', [
             'reservations'=> Reservation::all(),
         ]);
     }
@@ -235,6 +235,15 @@ class ReservationController extends Controller
     
         return back()->with('success', 'Reservation approval email sent successfully!');
     }
+
+    // public function createAvailableReservation(Request $request){        
+        
+    // }
+
+    // public function showAvailableReservation(Request $request){        
+        
+    //     return view('admin.pages.create.manage', compact('reservations'));
+    // }
 
     public function reservationCheck(Request $request){         
         $data = [
@@ -339,7 +348,7 @@ class ReservationController extends Controller
 
         $reservations = $query->orderBy('checkin_date')->paginate(10);
 
-        return view('admin.pages.reservation_manage.manage', compact('reservations'));
+        return view('admin.pages.room_reservation.manage', compact('reservations'));
     }
 
     public function updateStatus(Request $request, $id)

@@ -59,7 +59,7 @@
         </div>
     </div>
 </section> -->
-<!-- <section style="background-color: #EEE9E3; p-5">
+<!-- <section style="background-color: #f8f8f8; p-5">
     <div class="container mt-5 pb-5">
         <div class="row">
             <div class="col-md-12 mt-5">

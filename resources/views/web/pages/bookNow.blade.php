@@ -55,7 +55,7 @@
                                 <input type="date" class="form-control formField reservation_formField" id="checkin"
                                     name="checkin" placeholder="Select Date" required>
                             </div>
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="roomtype">Room Type</label>
                                 <select name="roomtype" class="form-select formField " id="roomtype" required>
                                     <option value="">-- Select --</option>
@@ -75,7 +75,7 @@
                                         Family Suit (Triple)
                                     </option>
                                 </select>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <!-- Right Column -->
@@ -86,7 +86,7 @@
                                     <input type="date" class="form-control formField reservation_formField" name="checkout"
                                     id="checkout" placeholder="Select Date" required>
                             </div>                            
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="roomtype">No Of Rooms</label>
                                 <select name="noOf_room" class="form-select formField " id="roomtype" required>
                                     <option value="">-- Select --</option>
@@ -106,10 +106,40 @@
                                         5
                                     </option>
                                 </select>
+                            </div> --}}
+                        </div>
+
+                        <div id="roomTypeContainer">
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    <label>Room Type</label>
+                                    <select name="roomtypes[0][type]" class="form-select formField" required>
+                                        <option value="">-- Select --</option>
+                                        <option value="Deluxe Single">Deluxe Single</option>
+                                        <option value="Deluxe Double">Deluxe Double</option>
+                                        <option value="Super Deluxe">Super Deluxe</option>
+                                        <option value="Super Deluxe (Twin)">Super Deluxe (Twin)</option>
+                                        <option value="Family Suit (Triple)">Family Suit (Triple)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <label>No of Rooms</label>
+                                    <select name="roomtypes[0][count]" class="form-select formField" required>
+                                        <option value="">-- Select --</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 d-flex align-items-end mb-1">
+                                    <button type="button" class="btn pb-2 w-100 btn-success" onclick="addRoomType()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-2">
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="adult_no">No. of Adults</label>
@@ -128,7 +158,7 @@
                         <div class="mb-3 col-md-4">
                             <label for="country">Country</label>
                       
-                            <select name="country" class="form-select formField" id="country" required>
+                            <select name="country" class="form-select roomtype-select formField" id="country" required>
                                 <option value="Bangladesh" selected>Bangladesh</option>
                                 <option value="India">India</option>
                                 <option value="Pakistan">Pakistan</option>
@@ -247,15 +277,89 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+// =========== Multiple room types ==========
+let roomIndex = 1;
+
+function addRoomType() {
+    const totalRoomTypes = document.querySelector('.roomtype-select').querySelectorAll('option:not([value=""])').length;
+    if(roomIndex >= totalRoomTypes){
+        return;
+    }
+    const container = document.getElementById("roomTypeContainer");
+    const newGroup = document.createElement("div");
+    newGroup.className = "row mt-2";
+
+    newGroup.innerHTML = `
+        <div class="col-md-6">
+            <select name="roomtypes[${roomIndex}][type]" class="form-select formField" required>
+                <option value="">-- Select --</option>
+                <option value="Deluxe Single">Deluxe Single</option>
+                <option value="Deluxe Double">Deluxe Double</option>
+                <option value="Super Deluxe">Super Deluxe</option>
+                <option value="Super Deluxe (Twin)">Super Deluxe (Twin)</option>
+                <option value="Family Suit (Triple)">Family Suit (Triple)</option>
+            </select>
+        </div>
+        <div class="col-md-5">
+            <select name="roomtypes[${roomIndex}][count]" class="form-select roomtype-select formField" required>
+                <option value="">-- Select --</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="col-md-1 d-flex align-items-end">
+            <button type="button" class="btn btn-danger w-100 mb-1" onclick="removeRoomType(this)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    `;
+
+    container.appendChild(newGroup);
+    roomIndex++;
+}
+
+function removeRoomType(button) {
+    roomIndex--;
+    button.closest(".row").remove();
+}
+
+//========= Reservation form submit =========
 document.getElementById("reservationForm").addEventListener("submit", function(event) {
     event.preventDefault();
+
     const formData = {};
-
-    // Get all form fields
-    const formFields = document.querySelectorAll(".formField");
-
+    const formFields = document.querySelectorAll(".formField");    
+    
     formFields.forEach(field => {
-        formData[field.name] = field.value;
+        // Check for roomtypes[0][type] or roomtypes[0][count]
+        const match = field.name.match(/^roomtypes\[(\d+)]\[(type|count)]$/);
+
+        if (match) {
+            const index = parseInt(match[1]);
+            const fieldType = match[2];
+
+            // Initialize roomTypes array if it doesn't exist
+            if (!formData.roomTypes) {
+                formData.roomTypes = [];
+            }
+
+            // Initialize object at that index
+            if (!formData.roomTypes[index]) {
+                formData.roomTypes[index] = {};
+            }
+
+            // Assign the correct key
+            if (fieldType === 'type') {
+                formData.roomTypes[index].roomType = field.value;
+            } else if (fieldType === 'count') {
+                formData.roomTypes[index].noOfRoom = field.value;
+            }
+        } else {
+            formData[field.name] = field.value;
+        }
     });
 
     if (!formData.checkin || !formData.checkout) {
@@ -277,6 +381,8 @@ document.getElementById("reservationForm").addEventListener("submit", function(e
     //     });
     //     return;
     // }
+
+    console.log(formData,"xxxxx");
 
     const btn = document.getElementById("submitBtn");
     btn.disabled = true;

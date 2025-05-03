@@ -18,37 +18,40 @@ class ReservationController extends Controller
         $checkoutDate = Carbon::parse($request->input('checkout'));
         $dayCount = $checkinDate->diffInDays($checkoutDate);
     
-        // Prepare the data
-        $data = [
-            'checkin_date' => $request->checkin,
-            'checkout_date' => $request->checkout,
-            'room_type' => $request->roomtype,
-            'noOf_room'=> 1,
-            'pax_in' => $request->adult_no,
-            'child_in' => $request->child_no,
-            'country' => $request->country,
-            'title' => $request->title,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'guest_remarks' => $request->requirements ?? 'N/A',
-            'day_count' => $dayCount,
-            'reservation_mode' => 1,
-            'currency_type' => 1,
-            'conversion_rate' => 1,
-            'guest_source_id' => 1,
-            'reference_id' => 29,
-            'reservation_status' => 0,
-        ];
-    
-        DB::beginTransaction(); // 🔥 start transaction 
+        DB::beginTransaction();
         try {
-            $reservation = Reservation::create($data);
-            
+        // Prepare the data
+        foreach ($request->roomTypes as $roomTypeData) {
+            $data = [
+                'checkin_date'      => $request->checkin,
+                'checkout_date'     => $request->checkout,
+                'room_type'         => $roomTypeData['roomType'], // from JS: roomType
+                'noOf_room'         => $roomTypeData['noOfRoom'], // from JS: noOfRoom
+                'pax_in'            => $request->adult_no,
+                'child_in'          => $request->child_no,
+                'country'           => $request->country,
+                'title'             => $request->title,
+                'first_name'        => $request->first_name,
+                'last_name'         => $request->last_name,
+                'email'             => $request->email,
+                'phone'             => $request->phone,
+                'address'           => $request->address,
+                'guest_remarks'     => $request->requirements ?? 'N/A',
+                'day_count'         => $dayCount,
+                'reservation_mode'  => 1,
+                'currency_type'     => 1,
+                'conversion_rate'   => 1,
+                'guest_source_id'   => 1,
+                'reference_id'      => 29,
+                'reservation_status'=> 0,
+            ];
+        
+            // Save the data (example using Eloquent)
+            Reservation::create($data);
+        }        
+                      
             // Send Mail to Website
-            // Mail::to('pervej@cubixbd.com')->send(new ReservationMail($data));
+            // Mail::to('pervej@cubixbd.com')->send(new ReservationMail($request->all()));
             DB::commit(); 
     
             return response()->json([
@@ -57,7 +60,7 @@ class ReservationController extends Controller
             ], 200);
     
         } catch (\Exception $e) {
-            DB::rollBack(); // ❌ error happened, rollback
+            DB::rollBack(); 
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to save reservation or send email. Error: ' . $e->getMessage()
@@ -254,7 +257,11 @@ class ReservationController extends Controller
             "editRoomList" => []
         ];
 
-        dd($data);
+        return response()->json([
+            'success' => true,
+            'message' => 'Reservation saved and email sent successfully!',
+            'data' => $data
+        ], 200);
         exit();
     }
     

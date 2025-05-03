@@ -7,16 +7,13 @@
                 <h4 class="card-title pb-2">Check Room Status</h4>
                 <form method="GET" action="{{ route('reservation.index') }}" class="mb-4 row g-3">
                     <div class="col-md-6">
-                            <label for="datepicker">Check in</label>
-                            <input type="date" class="form-control formField reservation_formField" id="checkin"
-                                name="checkin" placeholder="Select Date" required>                        
-                      </div>
-                      
-                      <div class="col-md-6">
-                        <label for="datepicker">Check Out</label>
-                        <input type="date" class="form-control formField reservation_formField" id="checkin"
-                            name="checkout" placeholder="Select Date" required>   
-                      </div>
+                        <label>Check In</label>
+                        <input type="date" name="checkin_date" id="checkin" class="form-control pt-1" value="{{ request('checkin_date') }}" placeholder="Check-in Date">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Check Out</label>
+                        <input type="date" name="checkout_date" id="checkout" class="form-control pt-1" value="{{ request('checkout_date') }}" placeholder="Check-out Date">
+                    </div>
                       
                     <div class="col-md-6">
                         <label>Room Type</label>

@@ -118,7 +118,6 @@ function renderCalendar(date) {
                     .then((response) => response.json())
                     .then((data) => {
                         // Loop over each room_type input and set value
-                        console.log(data);
                         document
                             .querySelectorAll("input[name^='room_types']")
                             .forEach((input) => {
@@ -202,21 +201,18 @@ document.addEventListener("DOMContentLoaded", function () {
 // });
 
 // manage reservation
-let checkoutPicker = flatpickr("#checkout", {
-    dateFormat: "Y-m-d",
-    minDate: "today",
-});
-
 flatpickr("#checkin", {
     dateFormat: "Y-m-d",
-    minDate: "today",
-    onChange: function (selectedDates) {
-        if (selectedDates.length > 0) {
-            const minCheckout = new Date(selectedDates[0]);
-            minCheckout.setDate(minCheckout.getDate() + 1); // Minimum checkout = checkin + 1
-            checkoutPicker.set("minDate", minCheckout);
-        }
+    onChange: function (selectedDates, dateStr, instance) {
+        // Set the minimum date of checkout as the selected checkin date + 1
+        let minDate = new Date(selectedDates[0]);
+        minDate.setDate(minDate.getDate() + 1);
+        checkoutPicker.set("minDate", minDate);
     },
+});
+
+const checkoutPicker = flatpickr("#checkout", {
+    dateFormat: "Y-m-d",
 });
 
 $(document).ready(function () {

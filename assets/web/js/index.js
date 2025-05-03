@@ -7,19 +7,19 @@ function closeMenu() {
 }
 
 /**For home page */
-window.addEventListener("scroll", function () {
-    const bookNowButton = document.querySelector(".booknowHome");
-    const menuButton = document.querySelector(".menu-button-home");
+// window.addEventListener("scroll", function () {
+//     const bookNowButton = document.querySelector(".booknowHome");
+//     const menuButton = document.querySelector(".menu-button-home");
 
-    if (window.scrollY > 500) {
-        // Change 50 to the scroll threshold you want
-        bookNowButton.classList.add("scroll-active");
-        menuButton.classList.add("scroll-active");
-    } else {
-        bookNowButton.classList.remove("scroll-active");
-        menuButton.classList.remove("scroll-active");
-    }
-});
+//     if (window.scrollY > 500) {
+//         // Change 50 to the scroll threshold you want
+//         bookNowButton.classList.add("scroll-active");
+//         menuButton.classList.add("scroll-active");
+//     } else {
+//         bookNowButton.classList.remove("scroll-active");
+//         menuButton.classList.remove("scroll-active");
+//     }
+// });
 
 // Offer show //
 

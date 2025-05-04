@@ -17,7 +17,7 @@
                             data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{route('manage-reservation-view')}}">Manage</a>
-                                    <a class="nav-link" href="{{route('available_room-view')}}">Create</a>
+                                    <a class="nav-link" href="{{route('available_room-view')}}">Update</a>
                                 </nav>
                             </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ReservationMail;
 use App\Mail\ReservationApproved;
+use App\Models\AvailableRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -13,20 +14,19 @@ use App\Models\AboutUs;
 
 class ReservationController extends Controller
 {
-    public function sendReservationMail(Request $request){
+    public function sendReservationMail(Request $request)
+    {
         $checkinDate = Carbon::parse($request->input('checkin'));
         $checkoutDate = Carbon::parse($request->input('checkout'));
         $dayCount = $checkinDate->diffInDays($checkoutDate);
     
         DB::beginTransaction();
+    
         try {
-        // Prepare the data
-        foreach ($request->roomTypes as $roomTypeData) {
-            $data = [
+            // Create one reservation
+            $data = Reservation::create([
                 'checkin_date'      => $request->checkin,
                 'checkout_date'     => $request->checkout,
-                'room_type'         => $roomTypeData['roomType'], // from JS: roomType
-                'noOf_room'         => $roomTypeData['noOfRoom'], // from JS: noOfRoom
                 'pax_in'            => $request->adult_no,
                 'child_in'          => $request->child_no,
                 'country'           => $request->country,
@@ -44,23 +44,32 @@ class ReservationController extends Controller
                 'guest_source_id'   => 1,
                 'reference_id'      => 29,
                 'reservation_status'=> 0,
-            ];
-        
-            // Save the data (example using Eloquent)
-            Reservation::create($data);
-        }        
-                      
-            // Send Mail to Website
-            // Mail::to('pervej@cubixbd.com')->send(new ReservationMail($request->all()));
-            DB::commit(); 
+            ]);
+            
+            // Save room types related to this reservation
+            foreach ($request->roomTypes as $roomTypeData) {
+                $data->roomTypes()->create([
+                    'room_type'   => $roomTypeData['roomType'],
+                    'no_of_room'  => $roomTypeData['noOfRoom'],
+                ]);
+            }
+            
+            // Send confirmation email
+            $data->load('roomTypes');
+            $mailData = $data->toArray();
+            $mailData['roomTypes'] = $data->roomTypes->toArray(); 
+            Mail::to('pervej@cubixbd.com')->send(new ReservationMail($mailData));
+            
+    
+            DB::commit();
     
             return response()->json([
                 'success' => true,
-                'message' => 'Reservation saved and email sent successfully!'
+                'message' => 'Reservation saved and email sent successfully!',
             ], 200);
     
         } catch (\Exception $e) {
-            DB::rollBack(); 
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to save reservation or send email. Error: ' . $e->getMessage()
@@ -213,9 +222,9 @@ class ReservationController extends Controller
 
     public function showReservation(Request $request){
         
-        return view('admin.pages.room_reservation.manage', [
-            'reservations'=> Reservation::all(),
-        ]);
+        $reservations = Reservation::with('roomTypes')->get();
+
+        return view('admin.pages.room_reservation.manage',compact('reservations'));
     }
 
     public function sendGuestMail($id)
@@ -247,23 +256,6 @@ class ReservationController extends Controller
         
     //     return view('admin.pages.create.manage', compact('reservations'));
     // }
-
-    public function reservationCheck(Request $request){         
-        $data = [
-            'checkin_date' => $request->checkin,
-            'checkout_date' => $request->checkout,
-            'room_type' => $request->roomtype,
-            'room_quantity' => 1,
-            "editRoomList" => []
-        ];
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Reservation saved and email sent successfully!',
-            'data' => $data
-        ], 200);
-        exit();
-    }
     
     public function reservationCheckForApi(Request $request){        
         $apiUrl = env('API_URL');      

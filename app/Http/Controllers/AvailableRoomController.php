@@ -11,13 +11,12 @@ class AvailableRoomController extends Controller
     {
         $availableRooms = AvailableRoom::orderBy('created_at', 'desc')->get();
     
-        return view('admin.pages.room_reservation.create', compact('availableRooms'));
+        return view('admin.pages.room_reservation.update', compact('availableRooms'));
     }
 
     public function showAvailableRoom()
     {
-
-        return view('admin.pages.room_reservation.create', [
+        return view('admin.pages.room_reservation.update', [
             'availableRooms' => AvailableRoom::all(),
             ]
         );
@@ -37,6 +36,52 @@ class AvailableRoomController extends Controller
         return response()->json($formatted);
     }
 
+    public function reservationCheck(Request $request)
+    {
+        $checkin = Carbon::parse($request->checkin);
+        $checkout = Carbon::parse($request->checkout);
+    
+        // Ensure same month to stay within d1 to d31/d32 range
+        if ($checkin->month !== $checkout->month) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Check-in and check-out must be in the same month.',
+                'data' => []
+            ], 400);
+        }
+    
+        // Build dX columns based on day range
+        $columns = [];
+        for ($d = $checkin->day; $d <= $checkout->day; $d++) {
+            $columns[] = 'd' . $d;
+        }
+    
+        $selectColumns = array_merge(['room_type'], $columns);
+    
+        $rooms = AvailableRoom::select($selectColumns)->get();
+    
+        // sum available room total based on their type
+        $availability = [];
+    
+        foreach ($rooms as $room) {
+            $totalAvailable = 0;
+            foreach ($columns as $col) {
+                $totalAvailable += (int) $room->$col;
+            }
+            $availability[$room->room_type] = $totalAvailable;
+        }
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Room availability calculated.',
+            'data' => [
+                'checkin_date' => $request->checkin,
+                'checkout_date' => $request->checkout,
+                'availability' => $availability,
+                'rooms'=> $rooms,
+            ],
+        ]);
+    }    
 
     public function store(Request $request)
     {

@@ -113,7 +113,7 @@
                             <div class="row"> 
                                 <div class="col-md-6">
                                     <label>Room Type</label>
-                                    <select name="roomtypes[0][type]" class="form-select formField" required>
+                                    <select name="roomtypes[0][type]" class="form-select formField room_type">
                                         <option value="">-- Select --</option>
                                         <option value="Deluxe Single">Deluxe Single</option>
                                         <option value="Deluxe Double">Deluxe Double</option>
@@ -124,17 +124,13 @@
                                 </div>
                                 <div class="col-md-5">
                                     <label>No of Rooms</label>
-                                    <select name="roomtypes[0][count]" class="form-select formField" required>
+                                    <select name="roomtypes[0][count]" class="form-select formField no_of_room">
                                         <option value="">-- Select --</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
                                     </select>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-end mb-1">
-                                    <button type="button" class="btn pb-2 w-100 btn-success" onclick="addRoomType()"><i class="fa-solid fa-plus"></i></button>
+                                    <button type="button" class="btn p-2 pr-4 w-100 btn-success" onclick="addRoomType()" title="Bookmark">
+                                        <i class="fa-solid fa-plus"></i>                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -252,7 +248,7 @@
 </section>
 <section id="Speacitial-feature">
     <div class="container mt-5 p-3 text-center ">
-        <div class="row ">
+        <div class="row">
             <div class="col-md-4 text-center">
                 <div class="contactIcon"><i class="fa-solid fa-location-dot"></i></div>
                 <div class="contactHeading">Address</div>
@@ -277,41 +273,118 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-// =========== Multiple room types ==========
-let roomIndex = 1;
+document.addEventListener('DOMContentLoaded', function () {
+    const checkin = document.getElementById('checkin');
+    const checkout = document.getElementById('checkout');
 
-function addRoomType() {
-    const totalRoomTypes = document.querySelector('.roomtype-select').querySelectorAll('option:not([value=""])').length;
-    if(roomIndex >= totalRoomTypes){
-        return;
+    // ====== Create Object to show no of Rooms available for each type dynamically =====
+    const roomTypes = document.querySelectorAll('select[name^="roomtypes"][class="form-select formField room_type"] option');
+    
+    let selectedRoomType = ""; 
+    let selectedRoomCount = 0; 
+    
+    const availableRooms = {};
+    // Loop through each option and add to the object
+    roomTypes.forEach(option => {
+        if (option.value !== "") { 
+            availableRooms[option.value] = 0; 
+        }  
+    });
+
+    async function availabilityCheck(roomTypeElement) {
+        const bodyData = {
+            checkin: checkin.value,
+            checkout: checkout.value,
+            roomtype: roomTypeElement.value
+        };
+
+        if (bodyData.checkin && bodyData.checkout && bodyData.roomtype) {
+            try {
+                const response = await fetch("/reservation-check", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                const {data} = await response.json();
+                console.log(data,"pxpxpxp");
+                 // Set the updated roomNumbers
+                 for (let key in availableRooms) {
+                    availableRooms[key] = data.availability[key];
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        const selectElement = document.querySelector('.no_of_room');
+        
+        selectElement.innerHTML = '<option value="">-- Select --</option>';
+
+        // // Append options from 1 to noOfRoom
+       let noOfRoom = await availableRooms[bodyData.roomtype] || 0;
+       selectedRoomType = bodyData.roomtype;  // Example: dynamic value
+        
+        for (let i = 1; i <= noOfRoom; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            selectElement.appendChild(option);
+        }
+        selectElement.addEventListener("change", () => {
+            selectedRoomCount = selectElement.value;
+        });
     }
+
+    function attachRoomTypeListeners() {
+        const allRoomTypes = document.querySelectorAll('.room_type');
+        allRoomTypes.forEach(roomTypeElement => {
+            roomTypeElement.addEventListener('change', () => {                
+                availabilityCheck(roomTypeElement);
+            });
+        });
+    }
+
+    // Check availability for all room types when checkin/checkout changes
+    [checkin, checkout].forEach(input => {
+        input.addEventListener('change', () => {
+            document.querySelectorAll('.room_type').forEach(roomTypeElement => {
+                availabilityCheck(roomTypeElement);
+            });
+        });
+    });
+
+    // Initial listener binding for room types
+    attachRoomTypeListeners(availableRooms);
+
+    // =========== Multiple Room Types ==========
+    let roomIndex = 0;
+    
+    window.addRoomType = function () {
     const container = document.getElementById("roomTypeContainer");
     const newGroup = document.createElement("div");
     newGroup.className = "row mt-2";
+    // newGroup.style.cssText = `
+    //     background: #d4d4d4;
+    //     padding: 10px 0px;
+    //     border-radius: 10px;
+    // `;
+    newGroup.setAttribute("data-room-index", roomIndex);
 
     newGroup.innerHTML = `
         <div class="col-md-6">
-            <select name="roomtypes[${roomIndex}][type]" class="form-select formField" required>
-                <option value="">-- Select --</option>
-                <option value="Deluxe Single">Deluxe Single</option>
-                <option value="Deluxe Double">Deluxe Double</option>
-                <option value="Super Deluxe">Super Deluxe</option>
-                <option value="Super Deluxe (Twin)">Super Deluxe (Twin)</option>
-                <option value="Family Suit (Triple)">Family Suit (Triple)</option>
-            </select>
+            <input type="text" class="form-control formField" value="${selectedRoomType}" readonly>
+            <input type="hidden" name="roomtypes[${roomIndex}][type]" value="${selectedRoomType}" class="formField">
         </div>
         <div class="col-md-5">
-            <select name="roomtypes[${roomIndex}][count]" class="form-select roomtype-select formField" required>
-                <option value="">-- Select --</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+            <input type="text" class="form-control formField" value="${selectedRoomCount}" readonly>
+            <input type="hidden" name="roomtypes[${roomIndex}][count]" value="${selectedRoomCount}" class="formField">
         </div>
         <div class="col-md-1 d-flex align-items-end">
-            <button type="button" class="btn btn-danger w-100 mb-1" onclick="removeRoomType(this)">
+            <button type="button" class="btn btn-danger w-100 mb-1" onclick="removeRoomType(this)" title="Remove">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -319,48 +392,67 @@ function addRoomType() {
 
     container.appendChild(newGroup);
     roomIndex++;
-}
+    };
 
-function removeRoomType(button) {
-    roomIndex--;
-    button.closest(".row").remove();
-}
+    window.removeRoomType = function (button) {
+        const group = button.closest(".row");
+        if (group) group.remove();
+    };
+});
 
 //========= Reservation form submit =========
 document.getElementById("reservationForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
     const formData = {};
-    const formFields = document.querySelectorAll(".formField");    
-    
+    const formFields = document.querySelectorAll(".formField");
+
     formFields.forEach(field => {
-        // Check for roomtypes[0][type] or roomtypes[0][count]
-        const match = field.name.match(/^roomtypes\[(\d+)]\[(type|count)]$/);
+        const name = field.name?.trim();
+        const value = field.value?.trim();
+
+        // Skip if field name is missing or empty
+        if (!name) return;
+
+        // Match for roomtypes[0][type] or roomtypes[0][count]
+        const match = name.match(/^roomtypes\[(\d+)]\[(type|count)]$/);
 
         if (match) {
             const index = parseInt(match[1]);
             const fieldType = match[2];
 
-            // Initialize roomTypes array if it doesn't exist
             if (!formData.roomTypes) {
                 formData.roomTypes = [];
             }
 
-            // Initialize object at that index
             if (!formData.roomTypes[index]) {
                 formData.roomTypes[index] = {};
             }
 
-            // Assign the correct key
             if (fieldType === 'type') {
-                formData.roomTypes[index].roomType = field.value;
+                formData.roomTypes[index].roomType = value;
             } else if (fieldType === 'count') {
-                formData.roomTypes[index].noOfRoom = field.value;
+                formData.roomTypes[index].noOfRoom = value;
             }
         } else {
-            formData[field.name] = field.value;
+            // Only add named fields with non-empty values
+            if (name && value !== "") {
+                formData[name] = value;
+            }
         }
     });
+
+    // Clean up: remove empty entries from roomTypes
+    if (formData.roomTypes) {
+        formData.roomTypes = formData.roomTypes.filter(rt =>
+            rt && (rt.roomType || rt.noOfRoom)
+        );
+
+        // Optional: remove the array entirely if it's empty
+        if (formData.roomTypes.length === 0) {
+            delete formData.roomTypes;
+        }
+    }
 
     if (!formData.checkin || !formData.checkout) {
         Swal.fire({
@@ -382,11 +474,11 @@ document.getElementById("reservationForm").addEventListener("submit", function(e
     //     return;
     // }
 
-    console.log(formData,"xxxxx");
-
     const btn = document.getElementById("submitBtn");
     btn.disabled = true;
     btn.innerText = "Submitting...";
+
+    console.log(formData,"valueeee");
 
     fetch('/reservation', {
             method: 'POST',
@@ -401,11 +493,19 @@ document.getElementById("reservationForm").addEventListener("submit", function(e
             console.log(data, "fff")
             btn.disabled = false;
             btn.innerText = "Book Now";
-            Swal.fire({
-                icon: 'success',
-                title: 'Reservation Successful',
-                text: 'Your reservation has been submitted successfully!',
-            });
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Reservation Successful',
+                    text: data.message || 'Your reservation has been submitted successfully!',
+                });
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Submission Failed',
+                    text: data.message || 'Something is wrong!',
+                });
+            }
         })
         .catch(error => {
             console.log('Error:', error);
@@ -421,63 +521,5 @@ document.getElementById("reservationForm").addEventListener("submit", function(e
     // grecaptcha.reset();
 })
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     const checkin = document.getElementById('checkin');
-//     const checkout = document.getElementById('checkout');
-//     const roomtype = document.getElementById('roomtype');
-
-//     function availabilityCheck() {
-//         const bodyData = {
-//             checkin: checkin.value,
-//             checkout: checkout.value,
-//             roomtype: roomtype.value
-//         };
-
-//         // Make sure all values are filled before sending the request
-//         if (bodyData.checkin && bodyData.checkout && bodyData.roomtype) {
-//             // resultDiv.innerText = "Checking availability...";
-
-//             fetch("{{ url('/reservation-check') }}", {
-//                     method: 'POST',
-//                     headers: {
-//                         'Content-Type': 'application/json',
-//                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-//                     },
-//                     body: JSON.stringify(bodyData)
-//                 })
-//                 .then(res => res.json())
-//                 .then(data => {
-//                     console.log(data, "xxxxxx");
-//                     if (data.status == "success") {
-//                         Swal.fire({
-//                             icon: 'success',
-//                             title: 'Available!',
-//                             text: data.message
-//                         });
-//                     } else {
-//                         Swal.fire({
-//                             icon: 'error',
-//                             title: 'Not Available',
-//                             text: data.message
-//                         });
-//                     }
-//                 })
-//                 .catch(err => {
-//                     Swal.fire({
-//                         icon: 'error',
-//                         title: 'Not Available',
-//                         text: "Error checking availability"
-//                     });
-//                     console.log(err);
-//                 });
-//         }
-//     }
-
-//     // Attach onchange listeners
-//     // [checkin, checkout, roomtype].forEach(input => {
-//     //     input.addEventListener('change', availabilityCheck);
-//     // });
-
-// });
 </script>
 @endsection

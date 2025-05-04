@@ -22,7 +22,7 @@
                             <option value="Deluxe Single" {{ request('room_type') === 'Deluxe Single' ? 'selected' : '' }}>
                                 Deluxe Single
                             </option>
-                            <option value="Super Double" {{ request('room_type') === 'Super Double' ? 'selected' : '' }}>
+                            <option value="Deluxe Double" {{ request('room_type') === 'Deluxe Double' ? 'selected' : '' }}>
                                 Deluxe Double
                             </option>
                             <option value="Super Deluxe" {{ request('room_type') === 'Super Deluxe' ? 'selected' : '' }}>
@@ -84,7 +84,8 @@
                             <tr>
                                 <th class="border-bottom-0">Sl No.</th>
                                 <th class="border-bottom-0">Guest Name</th>
-                                <th class="border-bottom-0">Room Type</th>
+                                <th class="border-bottom-0">Room Types</th>
+                                <th class="border-bottom-0">Quantity</th>
                                 <th class="border-bottom-0">Check In</th>
                                 <th class="border-bottom-0">Check Out</th>
                                 <th class="border-bottom-0">Phone</th>
@@ -100,7 +101,16 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>                   
                                     <td>{{$item->title}} {{$item->first_name}} {{$item->last_name}}</td> 
-                                    <td>{{$item->room_type}}</td>                                     
+                                    <td>
+                                        @foreach ($item->roomTypes as $room)
+                                            <div>{{ $room->room_type }} - {{ $room->no_of_room }}</div>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($item->roomTypes as $room)
+                                        <div>{{ $room->no_of_room }} room(s)</div>
+                                        @endforeach
+                                    </td>                                                                        
                                     <td>{{$item->checkin_date}}</td> 
                                     <td>{{$item->checkout_date}}</td> 
                                     <td>{{$item->phone}}</td>

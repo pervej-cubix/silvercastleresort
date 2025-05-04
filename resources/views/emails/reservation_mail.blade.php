@@ -54,7 +54,13 @@
         <p><span class="label">Email:</span> {{ $data['email'] }}</p>
         <p><span class="label">Check-In Date:</span> {{ $data['checkin_date'] }}</p>
         <p><span class="label">Check-Out Date:</span> {{ $data['checkout_date'] }}</p>
-        <p><span class="label">Room Type:</span> {{ $data['room_type'] }}</p>
+        <p><span class="label">Room Types:</span></p>
+        <ul>
+            @foreach ($data['roomTypes'] as $room)
+                <li>{{ $room['room_type'] }} - {{ $room['no_of_room'] }} room(s)</li>
+            @endforeach
+            </ul>
+            
         <p><span class="label">Country:</span> {{ $data['country'] }}</p>
         <p><span class="label">Number of Rooms:</span> {{ $data['room_no'] ?? 'N/A' }}</p>
         <p><span class="label">Number of Adults:</span> {{ $data['pax_in'] }}</p>

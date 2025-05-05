@@ -7,12 +7,14 @@
                 <h4 class="card-title pb-2">Check Room Status</h4>
                 <form method="GET" action="{{ route('reservation.index') }}" class="mb-4 row g-3">
                     <div class="col-md-6">
-                        <label>Check In</label>
-                        <input type="date" name="checkin_date" id="checkin" class="form-control pt-1" value="{{ request('checkin_date') }}" placeholder="Check-in Date">
+                        <label for="datepicker">Check in</label>
+                        <input type="date" class="form-control formField reservation_formField" id="checkin"
+                            name="checkin" placeholder="Select Date" required>
                     </div>
                     <div class="col-md-6">
-                        <label>Check Out</label>
-                        <input type="date" name="checkout_date" id="checkout" class="form-control pt-1" value="{{ request('checkout_date') }}" placeholder="Check-out Date">
+                        <label for="checkout">Check out</label>
+                        <input type="date" class="form-control formField reservation_formField" name="checkout"
+                        id="checkout" placeholder="Select Date" required>
                     </div>
                       
                     <div class="col-md-6">
@@ -40,8 +42,9 @@
                         <label>Room Status</label>
                         <select name="reservation_status" class="form-select">
                             <option value="">All Status</option>
+                            <option value="-1" {{ request('reservation_status') === '-1' ? 'selected' : '' }}>Pending</option>
                             <option value="1" {{ request('reservation_status') === '1' ? 'selected' : '' }}>Approved</option>
-                            <option value="0" {{ request('reservation_status') === '0' ? 'selected' : '' }}>UnApproved</option>
+                            <option value="0" {{ request('reservation_status') === '0' ? 'selected' : '' }}>Cancel</option>
                         </select>
                     </div>
                     <div class="col-md-12">
@@ -64,91 +67,76 @@
                     @if( session('errorr') )
                         <p class="alert alert-success">{{ session('error') }}</p>
                     @endif
-                    <div class="table-responsive">
-                          
-                    <div>                        
-                        <table id="reservation_manage" class="table table-bordered text-nowrap border-bottom">
-                            {{-- <thead>
-                                @php
-                                $totalApproved = $reservations->where('reservation_status', 1)->count();
-                                $totalUnApproved = $reservations->where('reservation_status', 0)->count();
-                            @endphp
-
-                            <tr>
-                                <td colspan="9" class="text-end fw-bold bg-light">
-                                    Total Approved Rooms: {{ $totalApproved }} |
-                                    Total UnApproved Rooms: {{ $totalUnApproved }}
-                                </td>
-                            </tr> --}}
-
-                            <tr>
-                                <th class="border-bottom-0">Sl No.</th>
-                                <th class="border-bottom-0">Guest Name</th>
-                                <th class="border-bottom-0">Room Types</th>
-                                <th class="border-bottom-0">Quantity</th>
-                                <th class="border-bottom-0">Check In</th>
-                                <th class="border-bottom-0">Check Out</th>
-                                <th class="border-bottom-0">Phone</th>
-                                <th class="border-bottom-0">Email</th>
-                                <th class="border-bottom-0">Stay <sub>(day)</sub></th>
-                                {{-- <th class="border-bottom-0">Status</th> --}}
-                                <th class="border-bottom-0">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                
-                            @foreach($reservations as $item) 
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>                   
-                                    <td>{{$item->title}} {{$item->first_name}} {{$item->last_name}}</td> 
-                                    <td>
-                                        @foreach ($item->roomTypes as $room)
-                                            <div>{{ $room->room_type }} - {{ $room->no_of_room }}</div>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($item->roomTypes as $room)
-                                        <div>{{ $room->no_of_room }} room(s)</div>
-                                        @endforeach
-                                    </td>                                                                        
-                                    <td>{{$item->checkin_date}}</td> 
-                                    <td>{{$item->checkout_date}}</td> 
-                                    <td>{{$item->phone}}</td>
-                                    <td>{{$item->email}}</td>
-                                    <td>{{$item->day_count}}</td>
-                                    {{-- <td>
-                                        <form action="{{ route('reservation.status', $item->id) }}" method="POST">
-                                            @csrf 
-                                            @method('PUT')
-                                            <select name="reservation_status" onchange="this.form.submit()" class="form-select form-select-sm">
-                                                <option value="1" {{ $item->reservation_status == 1 ? 'selected' : '' }}>Approved</option>
-                                                <option value="0" {{ $item->reservation_status == 0 ? 'selected' : '' }}>Pending</option>
-                                            </select>                                                
-                                        </form>                                        
-                                    </td>  --}}
-                                    <td class="d-flex gap-2">
-                                        <form method="POST" action="{{ route('reservation.sendGuestMail', $item->id) }}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Send confirmation email?')">
-                                                <i class="fa-solid fa-envelope"></i>&nbsp;Send Mail
-                                            </button>
-                                        </form>
-                                        <form method="post" action="{{ route('reservation.destroy', $item->id) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>                                                                         
-                                </tr>
-                            @endforeach
-
-                         
-                            </tbody>
-                        </table>
-                    </div>                   
-
+                    <div class="table-responsive">                          
+                        <div class="container">                                           
+                            <!-- Reservation Table -->
+                            <table id="reservation_manage" class="table table-bordered text-nowrap border-bottom">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom-0">Sl No.</th>
+                                        <th class="border-bottom-0">Guest Name</th>
+                                        <th class="border-bottom-0">Room Types</th>
+                                        <th class="border-bottom-0">Quantity</th>
+                                        <th class="border-bottom-0">Check In</th>
+                                        <th class="border-bottom-0">Check Out</th>
+                                        <th class="border-bottom-0">Contact</th>
+                                        <th class="border-bottom-0">Stay <sub>(day)</sub></th>
+                                        <th class="border-bottom-0">Status</th>
+                                        <th class="border-bottom-0">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($reservations as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{$item->title}} {{$item->first_name}} {{$item->last_name}}</td>
+                                            <td>
+                                                @foreach ($item->roomTypes as $room)
+                                                    <div>{{ $room->room_type }} - {{ $room->no_of_room }}</div>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach ($item->roomTypes as $room)
+                                                    <div>{{ $room->no_of_room }} room(s)</div>
+                                                @endforeach
+                                            </td>
+                                            <td>{{$item->checkin_date}}</td>
+                                            <td>{{$item->checkout_date}}</td>
+                                            <td>
+                                                <p class="mb-0">{{$item->phone}}</p>
+                                                <p class="mb-0">{{$item->email}}</p>
+                                            </td>
+                                            <td>{{$item->day_count}}</td>
+                                            <td>
+                                                <form action="{{ route('reservation.status', $item->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <select name="reservation_status" onchange="this.form.submit()" class="form-select form-select-sm">
+                                                        <option value="-1" {{ old('reservation_status', $item->reservation_status) == -1 ? 'selected' : '' }}>Pending</option>
+                                                        <option value="1" {{ old('reservation_status', $item->reservation_status) == 1 ? 'selected' : '' }}>Approved</option>
+                                                        <option value="0" {{ old('reservation_status', $item->reservation_status) == 0 ? 'selected' : '' }}>Cancel</option>
+                                                    </select>
+                                                </form>
+                                            </td>
+                                            <td class="d-flex gap-2 align-items-center">
+                                                <form method="post" action="{{ route('reservation.destroy', $item->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        
+                            <!-- Pagination Links -->
+                            <div class="d-flex justify-content-center">
+                                {{ $reservations->links() }}
+                            </div>
+                        </div>                                          
                     </div>
                 </div>
             </div>

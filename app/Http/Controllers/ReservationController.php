@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ReservationMail;
 use App\Mail\ReservationApproved;
+use App\Mail\ReservationCancelled;
 use App\Models\AvailableRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -43,7 +44,7 @@ class ReservationController extends Controller
                 'conversion_rate'   => 1,
                 'guest_source_id'   => 1,
                 'reference_id'      => 29,
-                'reservation_status'=> 0,
+                'reservation_status'=> -1,
             ]);
             
             // Save room types related to this reservation
@@ -220,30 +221,27 @@ class ReservationController extends Controller
         }
     }
 
-    public function showReservation(Request $request){
+    // public function showReservation(Request $request){
         
-        $reservations = Reservation::with('roomTypes')->get();
+    //     $reservations = Reservation::with('roomTypes')->get();
 
-        return view('admin.pages.room_reservation.manage',compact('reservations'));
+    //     return view('admin.pages.room_reservation.manage', compact('reservations'));
+    // }
+
+    public function showReservation(Request $request){
+        $perPage = $request->get('per_page', 10);
+    
+        $reservations = Reservation::with('roomTypes')->paginate($perPage);
+    
+        return view('admin.pages.room_reservation.manage', compact('reservations'));
     }
+    
 
     public function sendGuestMail($id)
     {
-        $reservation = Reservation::findOrFail($id);
-    
-        // Prepare data for the mail
-        $data = [
-            'email' => $reservation->email,
-            'title' => $reservation->title,
-            'first_name' => $reservation->first_name,
-            'last_name' => $reservation->last_name,
-            'room_type' => $reservation->room_type,
-            'checkin_date' => $reservation->checkin_date,
-            'checkout_date' => $reservation->checkout_date,
-        ];
+        $data = Reservation::with('roomTypes')->findOrFail($id);    
 
-        // Send email
-        Mail::to($data['email'])->send(new ReservationApproved($data));
+        Mail::to($data['email'])->send(new ReservationApproved($data));        
     
         return back()->with('success', 'Reservation approval email sent successfully!');
     }
@@ -351,13 +349,24 @@ class ReservationController extends Controller
     }
 
     public function updateStatus(Request $request, $id)
-    {
-        $reservation = Reservation::findOrFail($id); // Retrieve the record or fail
+    { 
+        $data = Reservation::with('roomTypes')->findOrFail($id); // Retrieve the record or fail
+        
+        $inputStatus = $request->input('reservation_status');
+        $data->reservation_status = $inputStatus;
+
+        $data->save(); // Save changes
+        
+
+       if($inputStatus == "1"){
+            Mail::to($data['email'])->send(new ReservationApproved($data));  
+            return redirect()->back()->with('success', 'Status updated & email sent successfully.');      
+       }else if ($inputStatus == "0"){
+            Mail::to($data['email'])->send(new ReservationCancelled($data));
+            return redirect()->back()->with('success', 'Status updated & email sent successfully.');           
+       }
     
-        $reservation->reservation_status = $request->input('reservation_status'); // Set new status
-        $reservation->save(); // Save changes
-    
-        return redirect()->back()->with('success', 'Reservation status updated successfully.');
+        return redirect()->back()->with('success', 'Status updated successfully.');
     }
 
     public function delete($id){

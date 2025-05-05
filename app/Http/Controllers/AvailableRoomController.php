@@ -36,12 +36,57 @@ class AvailableRoomController extends Controller
         return response()->json($formatted);
     }
 
+    // public function reservationCheck(Request $request)
+    // {
+    //     $checkin = Carbon::parse($request->checkin);
+    //     $checkout = Carbon::parse($request->checkout);
+    
+    //     // Ensure same month to stay within d1 to d31/d32 range
+    //     if ($checkin->month !== $checkout->month) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Check-in and check-out must be in the same month.',
+    //             'data' => []
+    //         ], 400);
+    //     }
+    
+    //     // Build dX columns based on day range
+    //     $columns = [];
+    //     for ($d = $checkin->day; $d <= $checkout->day; $d++) {
+    //         $columns[] = 'd' . $d;
+    //     }
+    
+    //     $selectColumns = array_merge(['room_type'], $columns);
+    
+    //     $rooms = AvailableRoom::select($selectColumns)->get();
+    
+    //     // sum available room total based on their type
+    //     $availability = [];
+    
+    //     foreach ($rooms as $room) {
+    //         $totalAvailable = 0;
+    //         foreach ($columns as $col) {
+    //             $totalAvailable += (int) $room->$col;
+    //         }
+    //         $availability[$room->room_type] = $totalAvailable;
+    //     }
+    
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Room availability calculated.',
+    //         'data' => [
+    //             'checkin_date' => $request->checkin,
+    //             'checkout_date' => $request->checkout,
+    //             'availability' => $availability,
+    //         ],
+    //     ]);
+    // } 
+
     public function reservationCheck(Request $request)
     {
         $checkin = Carbon::parse($request->checkin);
         $checkout = Carbon::parse($request->checkout);
     
-        // Ensure same month to stay within d1 to d31/d32 range
         if ($checkin->month !== $checkout->month) {
             return response()->json([
                 'success' => false,
@@ -50,38 +95,57 @@ class AvailableRoomController extends Controller
             ], 400);
         }
     
-        // Build dX columns based on day range
         $columns = [];
         for ($d = $checkin->day; $d <= $checkout->day; $d++) {
             $columns[] = 'd' . $d;
         }
     
         $selectColumns = array_merge(['room_type'], $columns);
-    
         $rooms = AvailableRoom::select($selectColumns)->get();
     
-        // sum available room total based on their type
         $availability = [];
     
         foreach ($rooms as $room) {
-            $totalAvailable = 0;
+            $dailyValues = [];
+    
             foreach ($columns as $col) {
-                $totalAvailable += (int) $room->$col;
+                $value = (int) $room->$col;
+                $dailyValues[] = $value;
+    
+                // Real-world logic: if any day has 0, room is unavailable
+                if ($value === 0) {
+                    $availability[$room->room_type] = 0;
+                    continue 2; // skip to next room_type
+                }
             }
-            $availability[$room->room_type] = $totalAvailable;
+    
+            // All values are > 0 — calculate GCD
+            $availability[$room->room_type] = $this->calculateGCDForArray($dailyValues);
         }
     
         return response()->json([
             'success' => true,
             'message' => 'Room availability calculated.',
-            'data' => [
-                'checkin_date' => $request->checkin,
-                'checkout_date' => $request->checkout,
-                'availability' => $availability,
-                'rooms'=> $rooms,
-            ],
+            'data' => $availability,
         ]);
-    }    
+    }
+    
+    private function calculateGCDForArray(array $numbers)
+    {
+        return array_reduce($numbers, function ($carry, $item) {
+            return $this->gcd($carry, $item);
+        });
+    }
+    
+    private function gcd($a, $b)
+    {
+        while ($b != 0) {
+            $temp = $b;
+            $b = $a % $b;
+            $a = $temp;
+        }
+        return $a;
+    }
 
     public function store(Request $request)
     {

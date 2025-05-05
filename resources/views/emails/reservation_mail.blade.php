@@ -59,7 +59,7 @@
             @foreach ($data['roomTypes'] as $room)
                 <li>{{ $room['room_type'] }} - {{ $room['no_of_room'] }} room(s)</li>
             @endforeach
-            </ul>
+        </ul>
             
         <p><span class="label">Country:</span> {{ $data['country'] }}</p>
         <p><span class="label">Number of Rooms:</span> {{ $data['room_no'] ?? 'N/A' }}</p>

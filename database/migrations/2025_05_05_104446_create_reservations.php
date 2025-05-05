@@ -33,7 +33,8 @@ return new class extends Migration
             $table->integer('guest_source_id')->default(1);
             $table->integer('reference_id')->nullable();
             $table->tinyInteger('reservation_status')->default(1);
-
+            $table->softDeletes();
+            
             $table->timestamps();
         });
     }

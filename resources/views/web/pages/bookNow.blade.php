@@ -83,7 +83,7 @@
                             <!-- check out -->
                             <div class="mb-3">
                                 <label for="checkout">Check out</label>
-                                    <input type="date" class="form-control formField reservation_formField" name="checkout"
+                                <input type="date" class="form-control formField reservation_formField" name="checkout"
                                     id="checkout" placeholder="Select Date" required>
                             </div>                            
                             {{-- <div class="mb-3">
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(data,"pxpxpxp");
                  // Set the updated roomNumbers
                  for (let key in availableRooms) {
-                    availableRooms[key] = data.availability[key];
+                    availableRooms[key] = data[key];
                 }
             } catch (err) {
                 console.log(err);

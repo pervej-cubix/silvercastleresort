@@ -68,8 +68,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($promotions as $promotion)
-                            
+                            @foreach($promotions as $promotion)                            
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td><img src="{{ asset($promotion->image) }}" alt="" width="40" height="60"></td>
@@ -96,7 +95,7 @@
         </div>
     </div>
 
-    <div class="row mt-5">
+    {{-- <div class="row mt-5">
         <div class="col-lg-10 offset-lg-1 col-md-12">
             <div class="card">
                 <div class="card-header border-bottom">
@@ -135,9 +134,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-
- 
+    </div> --}}
 @endsection

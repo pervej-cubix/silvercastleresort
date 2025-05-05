@@ -67,7 +67,10 @@
         <p>We are delighted to inform you that your reservation has been successfully <strong>approved</strong>.</p>
         
         <div class="details">
-            <p><strong>Room Type:</strong> {{ $data['room_type'] }}</p>
+            @foreach($data['roomTypes'] as $room)
+            <p>Room Type: {{ $room['room_type'] }} | No of Rooms: {{ $room['no_of_room'] }}</p>
+            @endforeach
+        
             <p><strong>Check-In Date:</strong> {{ \Carbon\Carbon::parse($data['checkin_date'])->format('F j, Y') }}</p>
             <p><strong>Check-Out Date:</strong> {{ \Carbon\Carbon::parse($data['checkout_date'])->format('F j, Y') }}</p>
         </div>        

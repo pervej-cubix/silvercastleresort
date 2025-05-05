@@ -7,6 +7,17 @@
 // Scripts
 //
 
+flatpickr("#checkin", {
+    dateFormat: "d-m-Y",
+    minuteIncrement: 1,
+    minDate: new Date(),
+});
+flatpickr("#checkout", {
+    dateFormat: "d-m-Y",
+    minuteIncrement: 2,
+    minDate: new Date().fp_incr(1),
+});
+
 window.addEventListener("DOMContentLoaded", (event) => {
     // Toggle the side navigation
     const sidebarToggle = document.body.querySelector("#sidebarToggle");
@@ -185,40 +196,5 @@ document.addEventListener("DOMContentLoaded", function () {
         if (this.value) {
             roomFields.classList.remove("d-none"); // Show the fields
         }
-    });
-});
-
-// flatpickr("#date", {
-//     dateFormat: "Y-m-d",
-//     minDate: firstDay,
-//     maxDate: lastDay,
-// });
-
-// // create available room
-// flatpickr(".datepicker", {
-//     minDate: "today",
-//     dateFormat: "Y-m-d",
-// });
-
-// manage reservation
-flatpickr("#checkin", {
-    dateFormat: "Y-m-d",
-    onChange: function (selectedDates, dateStr, instance) {
-        // Set the minimum date of checkout as the selected checkin date + 1
-        let minDate = new Date(selectedDates[0]);
-        minDate.setDate(minDate.getDate() + 1);
-        checkoutPicker.set("minDate", minDate);
-    },
-});
-
-const checkoutPicker = flatpickr("#checkout", {
-    dateFormat: "Y-m-d",
-});
-
-$(document).ready(function () {
-    $("#reservation_manage").DataTable({
-        paging: true,
-        searching: true,
-        ordering: true,
     });
 });

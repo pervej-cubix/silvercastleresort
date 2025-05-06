@@ -9,16 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ReservationApproved extends Mailable
+class ReservationReceived extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct(array $data)
     {
-        $this->data = $data;
+        //
     }
 
     /**
@@ -27,7 +27,7 @@ class ReservationApproved extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reservation Confirmation Letter',
+            subject: 'Reservation Request Submitted Successfully',
         );
     }
 
@@ -37,10 +37,10 @@ class ReservationApproved extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.reservation_approved',  
+            view: 'emails.reservation_cancel',
             with: [
                 'data' => $this->data,               
-            ],  
+            ], 
         );
     }
 

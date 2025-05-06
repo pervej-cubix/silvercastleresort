@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ReservationMail;
+use App\Mail\ReservationReceived;
 use App\Mail\ReservationApproved;
 use App\Mail\ReservationCancelled;
 use App\Models\AvailableRoom;
@@ -60,7 +61,7 @@ class ReservationController extends Controller
             $mailData = $data->toArray();
             $mailData['roomTypes'] = $data->roomTypes->toArray(); 
             Mail::to('pervej@cubixbd.com')->send(new ReservationMail($mailData));
-            
+            Mail::to($data['email'])->send(new ReservationReceived($mailData));
     
             DB::commit();
     
@@ -237,14 +238,25 @@ class ReservationController extends Controller
     }
     
 
-    public function sendGuestMail($id)
+    public function sendGuestMail(Request $request, $id)
     {
         $data = Reservation::with('roomTypes')->findOrFail($id);    
-
-        Mail::to($data['email'])->send(new ReservationApproved($data));        
     
-        return back()->with('success', 'Reservation approval email sent successfully!');
+        $status = $request->input('confirmation_status');
+    
+        if ($status == "1") {
+
+            Mail::to($data['email'])->send(new ReservationApproved($data));
+            return back()->with('success', 'Reservation approval email sent successfully!');
+        } elseif ($status == "0") {
+            
+            Mail::to($data['email'])->send(new ReservationCancelled($data));
+            return back()->with('success', 'Reservation cancellation email sent successfully!');
+        } else {
+            return back()->with('error', 'Invalid status! Please enter 0 for cancel or 1 for approve.');
+        }
     }
+    
 
     // public function createAvailableReservation(Request $request){        
         

@@ -45,12 +45,12 @@ function toggleOfferImg(event) {
 
 // flatpicker
 flatpickr("#checkin", {
-    dateFormat: "Y-m-d",
+    dateFormat: "d-m-Y",
     minuteIncrement: 1,
     minDate: new Date(),
 });
 flatpickr("#checkout", {
-    dateFormat: "Y-m-d",
+    dateFormat: "d-m-Y",
     minuteIncrement: 2,
     minDate: new Date().fp_incr(1),
 });

@@ -27,7 +27,7 @@ class ReservationCancelled extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reservation Cancelled',
+            subject: 'Reservation Cancellation Letter',
         );
     }
 

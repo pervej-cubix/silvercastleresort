@@ -37,6 +37,25 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 });
 
+// Send mail from manage room-reservation
+function showPromptAndSubmit() {
+    // Show the prompt and get the input value
+    var promptValue = prompt(
+        "Send confirmation email? (Enter 1 for Confirm, 0 for Cancel)"
+    );
+
+    // Check if the user entered a value and assign it to the hidden input
+    if (promptValue !== null && (promptValue === "1" || promptValue === "0")) {
+        // Set the value of the hidden input to the prompt value
+        document.getElementById("confirmation_status").value = promptValue;
+
+        // Submit the form
+        document.getElementById("sendMailForm").submit();
+    } else {
+        alert("Invalid input. Please enter 0 for cancel or 1 for approve.");
+    }
+}
+
 // ============ Available Rooms date Grid Container ==============
 
 setTimeout(() => {

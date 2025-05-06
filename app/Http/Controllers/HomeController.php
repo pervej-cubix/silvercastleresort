@@ -62,7 +62,7 @@ class HomeController extends Controller
         return view('web.pages.accommodation', [
             'accommodations' => $accommodation,
         ]);
-    }
+    } 
 
     public function dining()
     {
@@ -178,7 +178,11 @@ class HomeController extends Controller
 
     public function bookNow()
     {
-        return view('web.pages.bookNow');
+        $accommodation = Accomodation::where('status', 1)->get();
+
+        return view('web.pages.bookNow', [
+            'accommodations' => $accommodation,
+        ]);
     }
 
     public function BookingDetails()

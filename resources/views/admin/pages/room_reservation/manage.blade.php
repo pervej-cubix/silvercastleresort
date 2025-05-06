@@ -119,10 +119,18 @@
                                                 </form>
                                             </td>
                                             <td class="d-flex gap-2 align-items-center">
+                                                <form method="POST" action="{{ route('reservation.sendGuestMail', $item->id) }}" id="sendMailForm">
+                                                    @csrf
+                                                    <!-- Hidden input to hold the prompt value -->
+                                                    <input type="hidden" name="confirmation_status" id="confirmation_status" value="">                                                
+                                                    <button type="button" class="btn btn-success btn-sm" style="height: 30px; width: 35px;" onclick="showPromptAndSubmit()" title="Send Mail">
+                                                        <i class="fa-solid fa-paper-plane"></i>&nbsp
+                                                    </button>
+                                                </form>
                                                 <form method="post" action="{{ route('reservation.destroy', $item->id) }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                    <button type="submit" class="btn btn-danger btn-sm" style="height: 30px; width: 35px;" onclick="return confirm('Are you sure?')" title="Delete Reservation">
                                                         <i class="fa-solid fa-xmark"></i>
                                                     </button>
                                                 </form>

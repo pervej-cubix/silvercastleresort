@@ -27,36 +27,39 @@
                     resort's lush surroundings. This cafe specializes in gourmet dishes that highlight local
                     ingredients, creating an elegant setting for romantic dinners or special occasions. The combination
                     of exquisite food and stunning vistas makes it a favorite among guests.</p>
-
             </div>
         </div>
 
     </div>
 </section>
-<section id="Speacitial-feature">
-    <div class="container mt-5 ">
+<section id="Special-feature">
+    <div class="container mt-5">
         <div class="row">
-            <div class="col-md-12 text-center mt-4 mb-4">
-                <h3>Special Features</h3>
+            <div class="col-md-12 text-center mt-4 mb-5">
+                <h3 class="fw-bold">Special Features</h3>
             </div>
         </div>
-        <div class="row pb-5 ">
-            <div class="col-md-4 text-center">
-                <h6>No of Dining Space</h6>
-                <h6>05</h6>
+        <div class="row justify-content-center pb-5 gx-4 gy-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4 shadow-sm rounded-4 h-100">
+                    <h6 class="text-muted">No of Dining Space</h6>
+                    <h4 class="fw-semibold counter" data-count="5">05</h4>
+                </div>
             </div>
 
-            <div class="col-md-4 text-center">
-                <h6>Capacity</h6>
-                <h6>1000</h6>
-
-            </div>
-            <div class="col-md-4  text-center">
-                <h6>Book Your Table</h6>
-                <h6>+8801700707724</h6>
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4 shadow-sm rounded-4 h-100">
+                    <h6 class="text-muted">Capacity</h6>
+                    <h4 class="fw-semibold counter" data-count="1000">1000</h4>
+                </div>
             </div>
 
-
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4 shadow-sm rounded-4 h-100">
+                    <h6 class="text-muted">Book Your Table</h6>
+                    <h4 class="fw-semibold" style="color: #f56040;">+8801700707724</h4>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -74,14 +77,6 @@
                     </a>
                 </div>
 
-                <!-- Lightbox Trigger (Optional Icon Links) -->
-                <div>
-                    <a href="{{ asset($dining->image) }}" class="lightBox" data-lightbox="{{$dining->diningName}}">
-                        <i class="fa-solid fa-magnifying-glass-plus"></i>
-                    </a>
-                    <a href="#" class="threeD"><i class="fa-solid fa-cube"></i></a>
-                </div>
-
                 <!-- Hidden Images for Lightbox -->
                 @if($dining->dining_gallaries && count($dining->dining_gallaries) > 0)
                 @foreach($dining->dining_gallaries as $dining_gallaray)
@@ -91,7 +86,6 @@
                 @else
                 <p>No Galleries Available</p>
                 @endif
-
             </div>
 
             <div class="col-md-6 pl-5 animate__animated animate__fadeInRightBig"
@@ -124,11 +118,41 @@
                 </li>
                 @endif
             </div>
-
-
         </div>
         @endforeach
     </div>
 </section>
 
 @endsection
+
+<script>
+    function animateCounter(element, target, duration = 3000) {
+        let start = 0;
+        let startTime = null;
+        const isPhone = String(target).startsWith("+");
+
+        function updateCounter(currentTime) {
+            if (!startTime) startTime = currentTime;
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            const current = Math.floor(progress * target);
+            element.textContent = isPhone ? target : current;
+
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target;
+            }
+        }
+
+        requestAnimationFrame(updateCounter);
+    }
+
+    window.addEventListener("load", () => {
+        const counters = document.querySelectorAll(".counter");
+        counters.forEach(counter => {
+            const target = counter.getAttribute("data-count");
+            const isNumber = /^\d+$/.test(target);
+            animateCounter(counter, isNumber ? parseInt(target) : target);
+        });
+    });
+</script>

@@ -2,8 +2,6 @@
 
 @section('main')
 
-
-
 <div class="row mt-10 mb-10">
         <div class="col-lg-10 offset-lg-1 col-md-12">
             <div class="card mt-4">
@@ -58,11 +56,20 @@
                         </div>
 
                         <div class="row mb-4">
-                            <label for="rakeRate" class="col-md-3 form-label">Room Rake Rate</label>
+                            <label for="rackRate" class="col-md-3 form-label">Room Rack Rate</label>
                             <div class="col-md-9">
-                                <input class="form-control" name="rakeRate" id="rakeRate" placeholder="Enter your Room Rake Rate" type="number" required="required">
-                                @if($errors->has('rakeRate'))
-                                    <div class="alert alert-danger mt-1">{{ $errors->first('rakeRate') }}</div>
+                                <input class="form-control" name="rackRate" id="rackRate" placeholder="Enter your room rack rate" type="number" required="required">
+                                @if($errors->has('rackRate'))
+                                    <div class="alert alert-danger mt-1">{{ $errors->first('rackRate') }}</div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="discountedRate" class="col-md-3 form-label">Discounted Rate</label>
+                            <div class="col-md-9">
+                                <input class="form-control" name="discountedRate" id="discountedRate" placeholder="Enter your discounted rate" type="number" required="required">
+                                @if($errors->has('discountedRate'))
+                                    <div class="alert alert-danger mt-1">{{ $errors->first('discountedRate') }}</div>
                                 @endif
                             </div>
                         </div>

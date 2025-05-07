@@ -58,7 +58,6 @@ class HomeController extends Controller
     public function accommodation()
     {
         $accommodation = Accomodation::where('status', 1)->get();
-
         return view('web.pages.accommodation', [
             'accommodations' => $accommodation,
         ]);

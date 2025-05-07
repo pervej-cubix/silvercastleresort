@@ -5,7 +5,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-    <script src="{{asset('/')}}assets/web/js/index.js"></script>
+    <script src="{{ asset('assets/web/js/index.js') }}"></script>
+    {{-- <script src="{{ asset('assets/web/js/book-now.js') }}"></script> --}}
 
     <!-- owl-carousel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"
@@ -22,7 +23,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script>
-new WOW().init();
+    new WOW().init();
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -138,4 +139,8 @@ function redirectToPromotion(event) {
     // This function lets the image click follow the link without toggling visibility
     event.stopPropagation(); // Stop the click event on image from toggling the visibility
 }
+    </script>
+    
+    <script>
+        
     </script>

@@ -62,7 +62,7 @@ Route::get('/booking-query', action: [HomeController::class, 'bookingQuery'])->n
 // Route::get('/booking-query', [BookingController::class, 'query'])->name('booking-query');
 Route::post('/reservation', [ReservationController::class, 'sendReservationMail']);
 Route::get(uri: '/hotel-policy', action: [HotelPolicyController::class, 'hotelPolicy'])->name('hotelPolicy');
-Route::post('/reservation-check', [AvailableRoomController::class, 'reservationCheck']);
+Route::post('/reservation-check', [AvailableRoomController::class, 'reservationCheck'])-> name('reservation-check');
 
 Route::post('/logout', function () {
     Auth::logout();

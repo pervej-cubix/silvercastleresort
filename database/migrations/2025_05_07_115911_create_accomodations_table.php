@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('roomSize');
             $table->integer('noRoom');
             $table->integer('occupancy');
-            $table->integer('rakeRate');
+            $table->integer('rackRate');
+            $table->integer('discountedRate');
             $table->longText('description');
             $table->text('image');
             $table->boolean('status')->default(1)->nullable()->comment('1: Published; 0: Unpublished');

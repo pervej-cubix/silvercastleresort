@@ -20,7 +20,8 @@ class Accomodation extends Model
         self::$accomodation->roomSize = $request->roomSize;
         self::$accomodation->noRoom = $request->noRoom;
         self::$accomodation->occupancy = $request->occupancy;
-        self::$accomodation->rakeRate = $request->rakeRate;
+        self::$accomodation->rackRate = $request->rackRate;
+        self::$accomodation->discountedRate = $request->discountedRate;
         self::$accomodation->description = $request->description;
         if($request->image)
         {
@@ -72,7 +73,8 @@ class Accomodation extends Model
         self::$accomodation->roomSize = $request->roomSize;
         self::$accomodation->noRoom = $request->noRoom;
         self::$accomodation->occupancy = $request->occupancy;
-        self::$accomodation->rakeRate = $request->rakeRate;
+        self::$accomodation->rackRate = $request->rackRate;
+        self::$accomodation->discountedRate = $request->discountedRate;
         self::$accomodation->description = $request->description;
         if($request->file('image'))
         {

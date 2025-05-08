@@ -199,7 +199,7 @@
                             <div>
                                 <p class="card-text"><strong>Room Type:</strong> Grand King</p>
                                 <p class="card-text">
-                                    <strong>Size:</strong> {{ $accomodation->roomSize }} |
+                                    <strong>Size:</strong> {{ $accomodation->roomSize }}
                                     {{-- <strong>Total Room:</strong> {{ $accomodation->noRoom }} --}}
                                 </p>
                             </div>

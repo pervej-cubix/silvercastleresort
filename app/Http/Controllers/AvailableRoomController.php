@@ -86,6 +86,8 @@ class AvailableRoomController extends Controller
     {
         $checkin = Carbon::parse($request->checkin);
         $checkout = Carbon::parse($request->checkout);
+
+        $checkout->modify("-1 day");
     
         if ($checkin->month !== $checkout->month) {
             return response()->json([
@@ -103,6 +105,8 @@ class AvailableRoomController extends Controller
         $selectColumns = array_merge(['room_type'], $columns);
         $rooms = AvailableRoom::select($selectColumns)->get();
     
+        // dd($rooms);
+
         $availability = [];
     
         foreach ($rooms as $room) {
@@ -113,16 +117,22 @@ class AvailableRoomController extends Controller
                 $dailyValues[] = $value;
     
                 // Real-world logic: if any day has 0, room is unavailable
-                if ($value === 0) {
-                    $availability[$room->room_type] = 0;
-                    continue 2; // skip to next room_type
-                }
+                // if ($value === 0) {
+                //     $availability[$room->room_type] = 0;
+                //     continue 2; // skip to next room_type
+                // }
             }
-    
+
+            sort($dailyValues);
+
+            $availability[$room->room_type] = $dailyValues[0];
+
             // All values are > 0 — calculate GCD
-            $availability[$room->room_type] = $this->calculateGCDForArray($dailyValues);
+            // $availability[$room->room_type] = $this->calculateGCDForArray($dailyValues);
         }
     
+        // dd($availability);
+
         return response()->json([
             'success' => true,
             'message' => 'Room availability calculated.',

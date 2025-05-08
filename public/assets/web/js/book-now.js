@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
     checkout.addEventListener("change", updateDurationInfo);
 });
 
-// === After confirm or Add Room ====
+// ==== After confirm or Add Room ====
 document.addEventListener("DOMContentLoaded", function () {
     const confirmButtons = document.querySelectorAll(".confirm-room-btn");
     const checkin = document.getElementById("checkin");
@@ -264,6 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const checkoutDate = checkout.value;
 
             const roomDetails = [];
+            let totalPeople = 0;
 
             for (let i = 1; i <= roomCount; i++) {
                 const adultInput = form.querySelector(
@@ -272,14 +273,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 const childInput = form.querySelector(
                     `input[name="roomtypes[${roomType}][room${i}][children]"]`
                 );
-                if (adultInput && childInput) {
-                    roomDetails.push({
-                        roomType,
-                        room: i,
-                        adults: parseInt(adultInput.value || 0),
-                        children: parseInt(childInput.value || 0),
-                    });
+
+                const adults = parseInt(adultInput?.value || 0);
+                const children = parseInt(childInput?.value || 0);
+
+                // ✅ Require at least 1 adult per room
+                if (adults < 1) {
+                    alert(`Room ${i}: Must have at least 1 adult.`);
+                    return;
                 }
+
+                const roomTotal = adults + children;
+                totalPeople += roomTotal;
+
+                // ✅ Maximum total guests across all rooms is 5
+                // if (totalPeople > 5) {
+                //     alert(
+                //         "Total number of guests (adults + children) across all rooms must not exceed 5."
+                //     );
+                //     return;
+                // }
+
+                roomDetails.push({
+                    roomType,
+                    room: i,
+                    adults,
+                    children,
+                });
             }
 
             let group = confirmedRooms.find(
@@ -314,7 +334,15 @@ document.addEventListener("DOMContentLoaded", function () {
             button.disabled = true;
 
             renderConfirmedRooms();
-            console.log(confirmedRooms, "pxpxpx");
+
+            // Collapse form
+            form.classList.add("d-none");
+
+            // Change corresponding Add Room button text to "Add Room"
+            const toggleBtn = document.querySelector(
+                `.add-room-btn[data-target="#${formId}"]`
+            );
+            if (toggleBtn) toggleBtn.textContent = "Add Room";
         });
     });
 

@@ -210,15 +210,15 @@
         
                         <!-- Expandable Form Section -->
                         <div id="roomForm-{{ $loop->index }}" class="mt-3 d-none room-form">
-                            <div>
+                            <div class="mb-1">
                                 <label for="rooms-{{ $loop->index }}" class="form-label">No. of Rooms</label>
                                 <select class="form-select room-count-select" name="roomtypes[{{ $loop->index }}][count]" id="rooms-{{ $loop->index }}">
                                   <!-- Dynamically populated -->
                                 </select>
-                              </div>
+                            </div>
                               
                               <!-- Dynamic Guest Input Fields -->
-                              <div class="dynamic-guests "></div>
+                            <div class="dynamic-guests "></div>
                             
                             <input type="hidden" name="roomtypes[{{ $loop->index }}][type]" value="{{ $accomodation->roomType }}">
         

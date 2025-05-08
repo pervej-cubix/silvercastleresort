@@ -4,7 +4,7 @@
 @yield('scripts')
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 
 <style>
     .card-title {
@@ -14,6 +14,12 @@
 
     .card-text {
         font-size: 0.95rem;
+    }
+
+    @media(max-width: 1200px){
+      .room-type-content p{
+        font-size: 16px !important;
+      }
     }
 
     .room-form input {
@@ -182,29 +188,29 @@
                              alt="{{ $accomodation->roomType }}">
                     </a>        
                     <!-- Card Body -->
-                    <div class="card-body p-4 bg-light">
+                    <div class="card-body room-type-card-body p-4 bg-light">
                         <h5 class="card-title d-flex justify-content-between align-items-center">
                             {{ $accomodation->roomType }}
                             <a href="{{ route('roomDetails', $accomodation->slug) }}" class="text-decoration-none">
-                                <i class="fa-solid fa-arrow-right"></i>
+                                <i class="fa-solid fa-arrow-right" style="color: #f56040;"></i>
                             </a>
                         </h5>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between room-type-content">
                             <div>
-                                <p class="card-text "><strong>Room Type:</strong> Grand King</p>
-                                <p class="card-text ">
+                                <p class="card-text"><strong>Room Type:</strong> Grand King</p>
+                                <p class="card-text">
                                     <strong>Size:</strong> {{ $accomodation->roomSize }} |
-                                    <strong>Total Room:</strong> {{ $accomodation->noRoom }}
+                                    {{-- <strong>Total Room:</strong> {{ $accomodation->noRoom }} --}}
                                 </p>
                             </div>
                             <div>
-                                <p class="card-text "><strong>Rack Rate:</strong> $<span class="text-decoration-line-through" style="font-size: 18px; letter-spacing: 1px;">{{$accomodation->rackRate}}</span> </p>
-                                <p class="card-text "><strong>Discounted Rate:</strong> {{$accomodation->discountedRate}}</p>
+                                <p class="card-text"><strong>Rack Rate:</strong> $<span class="text-decoration-line-through" style="letter-spacing: 1px;">{{$accomodation->rackRate}}</span> </p>
+                                <p class="card-text"><strong>After Discount:</strong> $<span style="letter-spacing: 1px;">{{$accomodation->discountedRate}}</span> </p>
                             </div>
                         </div>
         
                         <!-- Add Room Button -->
-                        <button class="btn btn-primary btn-sm add-room-btn mt-2" type="button" data-target="#roomForm-{{ $loop->index }}" data-roomtype="{{ $accomodation->roomType }}">
+                        <button  class="btn btn-sm text-white add-room-btn mt-2" type="button" data-target="#roomForm-{{ $loop->index }}" data-roomtype="{{ $accomodation->roomType }}" style="background: #f56040;">
                             Add Room
                         </button>
         
@@ -359,6 +365,8 @@
 </section>
 
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="{{ asset('assets/web/js/book-now.js') }}"></script>
 <script>
   window.reservationCheck = "{{ route('reservation-check') }}";

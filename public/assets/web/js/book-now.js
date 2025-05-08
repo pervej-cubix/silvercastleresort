@@ -127,7 +127,12 @@ document.addEventListener("DOMContentLoaded", function () {
     addRoomButtons.forEach((button) => {
         button.addEventListener("click", async () => {
             if (!checkin.value || !checkout.value) {
-                alert("Please select both Check-in and Check-out dates first.");
+                Swal.fire({
+                    icon: "info",
+                    title: "Missing Dates",
+                    text: "Please select both Check-in and Check-out dates first.",
+                    confirmButtonText: "OK",
+                });
                 return;
             }
 
@@ -189,7 +194,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     toggleBtn.addEventListener("click", function () {
         if (!checkin.value || !checkout.value) {
-            alert("Please select both Check-in and Check-out dates first.");
+            Swal.fire({
+                icon: "info",
+                title: "Missing Dates",
+                text: "Please select both Check-in and Check-out dates first.",
+                confirmButtonText: "OK",
+            });
+
             return;
         }
 
@@ -279,9 +290,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // ✅ Require at least 1 adult per room
                 if (adults < 1) {
-                    alert(`Room ${i}: Must have at least 1 adult.`);
+                    Swal.fire({
+                        icon: "warning",
+                        title: `Room ${i}`,
+                        text: "Must have at least 1 adult.",
+                        confirmButtonText: "Got it",
+                    });
+
                     return;
                 }
+                if (adults < 1) return;
 
                 const roomTotal = adults + children;
                 totalPeople += roomTotal;
@@ -552,7 +570,12 @@ document.addEventListener("DOMContentLoaded", function () {
             confirmedRooms[0].roomTypes.length === 0 ||
             confirmedRooms[0].rooms.length === 0
         ) {
-            alert("Please select room type and rooms before proceeding.");
+            Swal.fire({
+                icon: "warning",
+                title: "Missing Selection",
+                text: "Please select room type and rooms before proceeding.",
+                confirmButtonText: "OK",
+            });
             return false;
         }
         return true;
@@ -573,6 +596,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         console.log("Confirmed Room Guest Details:", confirmedRooms);
-        alert("Guest information saved successfully!");
+        Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Guest information saved successfully!",
+            confirmButtonText: "OK",
+        });
     }
 });

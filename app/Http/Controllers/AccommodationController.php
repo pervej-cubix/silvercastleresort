@@ -54,21 +54,19 @@ class AccommodationController extends Controller
     {
 
         $validated = $request->validate([
-            'roomType' => 'required|string|max:255',
-            'roomSize' => 'required|string|max:255',
-            'noRoom' => 'required|integer|min:1',
-            'occupancy' => 'required|integer|min:1',
-            'rackRate' => 'required|numeric|min:0',
-            'discountedRate' => 'required|numeric|min:0',
+            'roomType' => 'string|max:255',
+            'roomSize' => 'string|max:255',
+            'noRoom' => 'integer|min:1',
+            'occupancy' => 'integer|min:1',
+            'rackRate' => 'numeric|min:0',
+            'discountedRate' => 'numeric|min:0',
             'description' => 'nullable|string|max:1000',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'accommodation_gallaries' => 'nullable|array',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'accommodation_gallaries' => 'array',
             'accommodation_gallaries.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|in:0,1',
-        ]);
-
+            'status' => 'in:0,1',
+        ]);        
         // dd($request->all());
-    
         $this->accomodation= Accomodation::updateAccomodation($request, $id);
         if ($request->accommodation_gallaries){
             AccomodationGallary::updateAccommodationGallary($request->accommodation_gallaries, $id);

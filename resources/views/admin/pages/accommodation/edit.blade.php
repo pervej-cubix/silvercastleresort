@@ -11,7 +11,9 @@
                     <h3 class="card-title">Edit Accomodation</h3>
                 </div>
                 <div class="card-body">
-                    
+                    @if( session('messages') )
+                    <p class="alert alert-success">{{ session('messages') }}</p>
+                    @endif
                     <form class="form-horizontal" action="{{ route('accommodation-update',$accomodation->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -57,12 +59,17 @@
                         </div>
 
                         <div class="row mb-4">
-                            <label for="rakeRate" class="col-md-3 form-label">Room Rake Rate</label>
+                            <label for="rackRate" class="col-md-3 form-label">Room Rack Rate</label>
                             <div class="col-md-9">
-                                <input class="form-control" name="rakeRate" value="{{ $accomodation->rakeRate }}" id="rakeRate" placeholder="Enter your Room Rake Rate" type="number" required="required">
-                                @if($errors->has('rakeRate'))
-                                    <div class="alert alert-danger mt-1">{{ $errors->first('rakeRate') }}</div>
-                                @endif
+                                <input class="form-control" name="rackRate" value={{ $accomodation->rackRate }} id="rackRate" placeholder="Enter your room rack rate" type="number">
+                               
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="discountedRate" class="col-md-3 form-label">Discounted Rate</label>
+                            <div class="col-md-9">
+                                <input class="form-control" name="discountedRate" value={{ $accomodation->discountedRate }} id="discountedRate" placeholder="Enter your discounted rate" type="number">
+                                
                             </div>
                         </div>
 
@@ -81,9 +88,9 @@
                             <div class="col-md-9">
                                 <div class="form-control">
                                     <input type="file" name="image" class="dropify" id="image" data-height="200" accept="image/*">
-                                    @if($errors->has('image'))
+                                    {{-- @if($errors->has('image'))
                                         <div class="alert alert-danger mt-1">{{ $errors->first('image') }}</div>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </div>
                         </div>

@@ -115,23 +115,12 @@ class AvailableRoomController extends Controller
             foreach ($columns as $col) {
                 $value = (int) $room->$col;
                 $dailyValues[] = $value;
-    
-                // Real-world logic: if any day has 0, room is unavailable
-                // if ($value === 0) {
-                //     $availability[$room->room_type] = 0;
-                //     continue 2; // skip to next room_type
-                // }
             }
 
             sort($dailyValues);
 
             $availability[$room->room_type] = $dailyValues[0];
-
-            // All values are > 0 — calculate GCD
-            // $availability[$room->room_type] = $this->calculateGCDForArray($dailyValues);
         }
-    
-        // dd($availability);
 
         return response()->json([
             'success' => true,

@@ -105,38 +105,62 @@
                 <h6 class="roomdetails">{{$accommodation->occupancy}} pax
                 </h6>
             </div>
-            <div class="col-md-2 text-center">
+            {{-- <div class="col-md-2 text-center">
                     <h6>Room Rake Rate</h6>
-                    <h6 class="roomdetails">BDT {{$accommodation->rakeRate}}++</h6>
-            </div>
-            <!-- <div class="col-md-2 text-center">
+                    <h6 class="roomdetails">BDT {{$accommodation->rackRate}}++</h6>
+            </div> --}}
+            <div class="col-md-2 text-center">
                 @php
-                $price = 00;
-                $exchangeRate = 0.0091; // Example: 1 BDT = 0.0091 USDT (Update as needed)
-                $usdt = round($price * $exchangeRate, 2);
+                    $rackRate = $accommodation->rackRate;
+                    $discountedRate = $accommodation->discountedRate;
+                    $exchangeRate = 0.0091; // Example: 1 BDT = 0.0091 USDT
+                    $usdRackRate = round($rackRate * $exchangeRate, 2);
+                    $usdDiscountedRate = round($discountedRate * $exchangeRate, 2);
                 @endphp
-                <h6>Room Rake Rate</h6>
+            
+                <h6>Room Rack Rate</h6>
+            
                 <div class="price-row">
-                    <h3 style="font-size: 16px;"><span style="text-decoration: line-through;">{{ $usdt }}</span><span
-                            style="font-size: 15px; font-weight: 600; text-decoration: none;">
-                            &nbsp;USD</span>
-                    </h3>
-                    <h3 style="font-size: 16px;"><span style="text-decoration: line-through;">{{ $price }}</span><span
-                            style="font-size: 15px; font-weight: 600; text-decoration: none;">
-                            &nbsp;BDT</span>
-                    </h3>
+                    @if ($discountedRate > 0)
+                        {{-- Rack rate with line-through --}}
+                        <h3 style="font-size: 16px;">
+                            <span style="text-decoration: line-through;">{{ $usdRackRate }}</span>
+                            <span style="font-size: 15px; font-weight: 600;">&nbsp;USD</span>
+                        </h3>
+                        <h3 style="font-size: 16px;">
+                            <span style="text-decoration: line-through;">{{ $rackRate }}</span>
+                            <span style="font-size: 15px; font-weight: 600;">&nbsp;BDT</span>
+                        </h3>
+                    @else
+                        {{-- Rack rate normally --}}
+                        <h3 style="font-size: 16px;">
+                            {{ $usdRackRate }}
+                            <span style="font-size: 15px; font-weight: 600;">USD</span>
+                        </h3>
+                        <h3 style="font-size: 16px;">
+                            {{ $rackRate }}
+                            <span style="font-size: 15px; font-weight: 600;">BDT</span>
+                        </h3>
+                    @endif
                 </div>
-                <div class="discount-section">
-                    <h3>%</h3>
-                    <h5>Discount Amount</h5>
+            
+                <h6>After Discount</h6>
+            
+                <div class="price-row justify-content-center gap-2">
+                    @if ($discountedRate > 0)
+                        {{-- Show discounted price --}}
+                        <h3>{{ $usdDiscountedRate }}
+                            <span style="font-size: 16px; font-weight: 600;">USD</span>
+                        </h3>
+                        <h3>{{ $discountedRate }}
+                            <span style="font-size: 16px; font-weight: 600;">BDT</span>
+                        </h3>
+                    @else
+                        <h6 class="text-center"><strong>Not Available</strong></h6>
+                    @endif
                 </div>
-                <div class="price-row">
-                    <h3>{{ $usdt }}<span style="font-size: 16px; font-weight: 600;"> &nbsp;USD</span>
-                    </h3>
-                    <h3>{{ $price }} <span style="font-size: 16px; font-weight: 600;">BDT</span>
-                    </h3>
-                </div>
-            </div> -->
+            </div>
+            
             <div class="col-md-2 text-center">
                 <a href="{{route('bookNow')}}" class="btn btn-primary btn_de text-center">Book Now</a>
                 <div class="col-md-12 text-end mt-3">

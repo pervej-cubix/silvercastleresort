@@ -12,13 +12,13 @@ use Illuminate\Queue\SerializesModels;
 class ReservationReceived extends Mailable
 {
     use Queueable, SerializesModels;
-
+     public $data;
     /**
      * Create a new message instance.
      */
-    public function __construct(array $data)
+    public function __construct(array $mailData)
     {
-        //
+          $this->data = $mailData;
     }
 
     /**
@@ -37,10 +37,8 @@ class ReservationReceived extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.reservation_cancel',
-            with: [
-                'data' => $this->data,               
-            ], 
+            view: 'emails.reservation_received',
+            with: ['data' => $this->data],
         );
     }
 

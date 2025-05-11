@@ -44,15 +44,20 @@ function toggleOfferImg(event) {
 // });
 
 // flatpicker
-flatpickr("#checkin", {
+const checkin = flatpickr("#checkin", {
     dateFormat: "d-m-Y",
     minuteIncrement: 1,
     minDate: new Date(),
+    onChange: function (selectedDates) {
+        const selectedCheckin = selectedDates[0];
+        checkout.set("minDate", selectedCheckin); // allow same day or later
+    },
 });
-flatpickr("#checkout", {
+
+const checkout = flatpickr("#checkout", {
     dateFormat: "d-m-Y",
     minuteIncrement: 2,
-    minDate: new Date().fp_incr(1),
+    minDate: new Date(),
 });
 
 // close header menu from anywherer

@@ -301,7 +301,10 @@
                     </div>
                     <div>
                       <label for="personal-phone" class="form-label">Phone Number</label>
-                      <input type="text" class="form-control" id="personal-phone" placeholder="Enter Phone Number" required>
+                      <input type="text" class="form-control mb-1" id="personal-phone"
+                            placeholder="Enter Phone Number"
+                            onchange="validatePhoneNumber('personal-phone')" required>
+                      <div id="phone-error-personal" style="color: red; display: none;">Invalid phone number</div>
                     </div>
                     <div class="mb-2">
                       <label for="personal-country">Country</label>                      
@@ -326,7 +329,7 @@
                       <label for="personal-requests" class="form-label">Special Requests</label>
                       <textarea class="form-control" id="personal-requests" placeholder="Enter Special Requests" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-success">Proceed to Book</button>
+                    <button type="submit" id="personalReservationSubmit" class="btn btn-success">Proceed to Book</button>
                   </form>
                 </div>
               
@@ -347,7 +350,10 @@
                     </div>
                     <div>
                       <label for="business-phone" class="form-label">Phone Number</label>
-                      <input type="text" class="form-control" id="business-phone" placeholder="Enter Phone Number" required>
+                      <input type="text" class="form-control mb-1" id="business-phone"
+                            placeholder="Enter Phone Number"
+                            onchange="validatePhoneNumber('business-phone')" required>
+                      <div id="phone-error-business" style="color: red; display: none;">Invalid phone number</div>
                     </div>
                     <div class="mb-2">
                         <label for="country">Country</label>                      
@@ -372,7 +378,7 @@
                       <label for="business-requests" class="form-label">Special Requests</label>
                       <textarea class="form-control" id="business-requests" placeholder="Enter Special Requests" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Proceed to Book</button>
+                    <button type="submit" id="businessReservationSubmit" class="btn btn-primary">Proceed to Book</button>
                   </form>
                 </div>
               
@@ -388,6 +394,24 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="{{ asset('assets/web/js/book-now.js') }}"></script>
 <script>
+    //   let checkoutPicker = flatpickr("#checkout", {
+    // dateFormat: "Y-m-d",
+    // minDate: "today",
+    // });
+
+    // flatpickr("#checkin", {
+    //     dateFormat: "Y-m-d",
+    //     minDate: "today",
+    //     onChange: function (selectedDates) {
+    //         if (selectedDates.length > 0) {
+    //             const minCheckout = new Date(selectedDates[0]);
+    //             minCheckout.setDate(minCheckout.getDate()); // Minimum checkout = checkin + 1
+    //             checkoutPicker.set("minDate", minCheckout);
+    //         }
+    //     },
+    // });
+
   window.reservationCheck = "{{ route('reservation-check') }}";
+  window.reservationSubmit = "{{ route('reservation') }}";
   window.csrfToken = "{{ csrf_token() }}";
 </script>

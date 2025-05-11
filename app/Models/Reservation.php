@@ -11,13 +11,32 @@ class Reservation extends Model
 {
     use SoftDeletes;
     use HasFactory;
+
     protected $fillable = [
-        'checkin_date', 'checkout_date', 'room_type', 'pax_in', 'child_in', 'country', 'title',
-        'first_name', 'last_name', 'email', 'phone', 'address', 'guest_remarks',
-        'day_count', 'reservation_mode', 'currency_type', 'conversion_rate',
-        'guest_source_id', 'reference_id', 'reservation_status'
+        'checkin',
+        'checkout',
+        'guest_type',
+        'full_name',
+        'email',
+        'phone',
+        'country',
+        'address',
+        'requirements',
+        'reservation_mode',  
+        'currency_type',     
+        'conversion_rate',   
+        'guest_source_id',   
+        'reference_id',       
+        'reservation_status', 
+        'totalAmount',        
+        'payableAmount',       
     ];
  
+    public function guestRooms()
+    {
+        return $this->hasMany(GuestRoom::class);
+    }
+
     public function roomTypes(): HasMany
     {
         // If foreign key is not standard

@@ -20,9 +20,9 @@ class ReservationMail extends Mailable
          *
          * @param array $data
          */
-        public function __construct(array $data) 
+        public function __construct(array $mailData) 
         {
-            $this->data = $data;
+            $this->data = $mailData;
         }
     
         /**

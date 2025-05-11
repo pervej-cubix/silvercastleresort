@@ -18,63 +18,67 @@ class ReservationController extends Controller
 {
     public function sendReservationMail(Request $request)
     {
-        $checkinDate = Carbon::parse($request->input('checkin'));
-        $checkoutDate = Carbon::parse($request->input('checkout'));
-        $dayCount = $checkinDate->diffInDays($checkoutDate);
-    
+        $data = $request->all();
+
+        $checkin = Carbon::createFromFormat('d-m-Y', $request->checkin)->format('Y-m-d');
+        $checkout = Carbon::createFromFormat('d-m-Y', $request->checkout)->format('Y-m-d');
+
         DB::beginTransaction();
-    
+
         try {
-            // Create one reservation
-            $data = Reservation::create([
-                'checkin_date'      => $request->checkin,
-                'checkout_date'     => $request->checkout,
-                'pax_in'            => $request->adult_no,
-                'child_in'          => $request->child_no,
-                'country'           => $request->country,
-                'title'             => $request->title,
-                'first_name'        => $request->first_name,
-                'last_name'         => $request->last_name,
-                'email'             => $request->email,
-                'phone'             => $request->phone,
-                'address'           => $request->address,
-                'guest_remarks'     => $request->requirements ?? 'N/A',
-                'day_count'         => $dayCount,
-                'reservation_mode'  => 1,
-                'currency_type'     => 1,
-                'conversion_rate'   => 1,
-                'guest_source_id'   => 1,
-                'reference_id'      => 29,
-                'reservation_status'=> -1,
-            ]);
-            
-            // Save room types related to this reservation
-            foreach ($request->roomTypes as $roomTypeData) {
-                $data->roomTypes()->create([
-                    'room_type'   => $roomTypeData['roomType'],
-                    'no_of_room'  => $roomTypeData['noOfRoom'],
+            // Store reservation data
+     $reservation = Reservation::create([
+            'checkin'      => $checkin,
+            'checkout'     => $checkout,
+            'guest_type'   => $data['guestType'],
+            'full_name'    => $data['guestDetails']['fullName'],
+            'email'        => $data['guestDetails']['email'],
+            'phone'        => $data['guestDetails']['phone'],
+            'country'      => $data['guestDetails']['country'],
+            'address'      => $data['guestDetails']['address'],
+            'requirements' => $data['guestDetails']['requirements'] ?? 'N/A',
+        ]);
+
+            // Insert room types
+            foreach ($data['roomTypes'] as $roomType) {
+                $reservation->roomTypes()->create([
+                    'room_type'  => $roomType['roomType'],
+                    'no_of_room' => $roomType['no_of_room'],
                 ]);
             }
-            
-            // Send confirmation email
-            $data->load('roomTypes');
-            $mailData = $data->toArray();
-            $mailData['roomTypes'] = $data->roomTypes->toArray(); 
-            Mail::to('pervej@cubixbd.com')->send(new ReservationMail($mailData));
-            Mail::to($data['email'])->send(new ReservationReceived($mailData));
-    
+
+            // Insert guest rooms
+            foreach ($data['guestRooms'] as $room) {
+                $reservation->guestRooms()->create([
+                    'room_type' => $room['roomType'],
+                    'room'      => $room['room'],
+                    'adults'    => $room['adults'],
+                    'children'  => $room['children'],
+                ]);
+            }
+
+            // Prepare and send email
+            $reservation->load(['roomTypes', 'guestRooms']); // eager load
+            $mailData = $reservation->toArray();
+
+            // Send to admin
+            // Mail::to('pervej@cubixbd.com')->send(new ReservationMail($mailData));
+
+            // Send to guest
+            // Mail::to($reservation->email)->send(new ReservationReceived($mailData)); 
+
             DB::commit();
-    
+
             return response()->json([
                 'success' => true,
                 'message' => 'Reservation saved and email sent successfully!',
             ], 200);
-    
+
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to save reservation or send email. Error: ' . $e->getMessage()
+                'message' => 'Something went wrong: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -222,21 +226,14 @@ class ReservationController extends Controller
         }
     }
 
-    // public function showReservation(Request $request){
-        
-    //     $reservations = Reservation::with('roomTypes')->get();
-
-    //     return view('admin.pages.room_reservation.manage', compact('reservations'));
-    // }
-
-    public function showReservation(Request $request){
+    public function showReservation(Request $request)
+    {
         $perPage = $request->get('per_page', 10);
-    
-        $reservations = Reservation::with('roomTypes')->paginate($perPage);
-    
+
+        $reservations = Reservation::with(['roomTypes', 'guestRooms'])->paginate($perPage);
+  
         return view('admin.pages.room_reservation.manage', compact('reservations'));
     }
-    
 
     public function sendGuestMail(Request $request, $id)
     {
@@ -246,11 +243,11 @@ class ReservationController extends Controller
     
         if ($status == "1") {
 
-            Mail::to($data['email'])->send(new ReservationApproved($data));
+            // Mail::to($data['email'])->send(new ReservationApproved($data));
             return back()->with('success', 'Reservation approval email sent successfully!');
         } elseif ($status == "0") {
             
-            Mail::to($data['email'])->send(new ReservationCancelled($data));
+            // Mail::to($data['email'])->send(new ReservationCancelled($data));
             return back()->with('success', 'Reservation cancellation email sent successfully!');
         } else {
             return back()->with('error', 'Invalid status! Please enter 0 for cancel or 1 for approve.');
@@ -335,27 +332,31 @@ class ReservationController extends Controller
     {
         $query = Reservation::query();
 
-        if($request->filled('checkin_date')){
-            redirect()->back()->with('error', 'Reservation status updated successfully.');
+        if ($request->filled('checkin')) {
+            $query->whereDate('checkin', '>=', $request->checkin);
         }
 
-        if ($request->filled('checkin_date')) {
-            $query->whereDate('checkin_date', '>=', $request->checkin_date);
+        if ($request->filled('checkout')) {
+            $query->whereDate('checkout', '<=', $request->checkout);
         }
 
-        if ($request->filled('checkout_date')) {
-            $query->whereDate('checkout_date', '<=', $request->checkout_date);
+        if ($request->filled('guest_type')) {
+            $query->where('guest_type', $request->guest_type);
         }
 
-        if ($request->filled('room_type')) {
-            $query->where('room_type', $request->room_type);
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
         }
 
-        if ($request->filled('reservation_status')) {
-            $query->where('reservation_status', $request->reservation_status);
+        if ($request->filled('phone')) {
+            $query->where('phone', 'like', '%' . $request->phone . '%');
         }
 
-        $reservations = $query->orderBy('checkin_date')->paginate(10);
+        if ($request->filled('country')) {
+            $query->where('country', 'like', '%' . $request->country . '%');
+        }
+
+        $reservations = $query->orderBy('checkin', 'asc')->paginate(10);
 
         return view('admin.pages.room_reservation.manage', compact('reservations'));
     }

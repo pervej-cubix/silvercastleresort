@@ -46,35 +46,34 @@
         <div class="header">Reservation Request from Website</div>
 
     <div class="content">
-        <p><span class="label">First Name:</span> {{ $data['title'] }}</p>
-        <p><span class="label">First Name:</span> {{ $data['first_name'] }}</p>
-        <p><span class="label">Last Name:</span> {{ $data['last_name'] }}</p>
+        <p><span class="label">Guest Type:</span> {{ $data['guest_type'] }}</p>
+        <p><span class="label">Full Name:</span> {{ $data['full_name'] }}</p>
         <p><span class="label">Address:</span> {{ $data['address'] }}</p>
         <p><span class="label">Phone:</span> {{ $data['phone'] }}</p>
         <p><span class="label">Email:</span> {{ $data['email'] }}</p>
-        <p><span class="label">Check-In Date:</span> {{ $data['checkin_date'] }}</p>
-        <p><span class="label">Check-Out Date:</span> {{ $data['checkout_date'] }}</p>
+        <p><span class="label">Check-In Date:</span> {{ $data['checkin'] }}</p>
+        <p><span class="label">Check-Out Date:</span> {{ $data['checkout'] }}</p>
+
         <p><span class="label">Room Types:</span></p>
         <ul>
-            @foreach ($data['roomTypes'] as $room)
+            @foreach ($data['room_types'] as $room)
                 <li>{{ $room['room_type'] }} - {{ $room['no_of_room'] }} room(s)</li>
             @endforeach
         </ul>
-            
-        <p><span class="label">Country:</span> {{ $data['country'] }}</p>
-        <p><span class="label">Number of Rooms:</span> {{ $data['room_no'] ?? 'N/A' }}</p>
-        <p><span class="label">Number of Adults:</span> {{ $data['pax_in'] }}</p>
-        <p><span class="label">Number of Children:</span> {{ $data['child_in'] }}</p>
-        <p><span class="label">Special Requirements:</span> {{ $data['guest_remarks'] }}</p>
-        <p><span class="label">Day Count:</span> {{ $data['day_count'] }}</p>
-        <p><span class="label">Reservation Mode:</span> {{ $data['reservation_mode'] }}</p>
-        <p><span class="label">Currency Type:</span> {{ $data['currency_type'] }}</p>
-        <p><span class="label">Conversion Rate:</span> {{ $data['conversion_rate'] }}</p>
-        <p><span class="label">Guest Source ID:</span> {{ $data['guest_source_id'] }}</p>
-        <p><span class="label">Reference ID:</span> {{ $data['reference_id'] }}</p>
-        <p><span class="label">Reservation Status:</span> {{ $data['reservation_status'] }}</p>
-    </div>
 
+        <p><span class="label">Guest Rooms:</span></p>
+        <ul>
+            @foreach ($data['guest_rooms'] as $guestRoom)
+                <li>
+                    Room {{ $guestRoom['room'] }} ({{ $guestRoom['room_type'] }}) - 
+                    Adults: {{ $guestRoom['adults'] }}, Children: {{ $guestRoom['children'] }}
+                </li>
+            @endforeach
+        </ul>
+
+        <p><span class="label">Country:</span> {{ $data['country'] }}</p>
+        <p><span class="label">Special Requirements:</span> {{ $data['requirements'] ?? 'N/A' }}</p>
+    </div>
         <!-- <div class="footer">Thank you for choosing us. We look forward to your stay!</div> -->
     </div>
 </body>

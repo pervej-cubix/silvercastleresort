@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     checkin: checkinDate,
                     checkout: checkoutDate,
                     roomTypes: [],
-                    rooms: [],
+                    guestRooms: [],
                 };
                 confirmedRooms.push(group);
             }
@@ -339,14 +339,16 @@ document.addEventListener("DOMContentLoaded", function () {
             group.roomTypes = group.roomTypes.filter(
                 (rt) => rt.roomType !== roomType
             );
-            group.rooms = group.rooms.filter((r) => r.roomType !== roomType);
+            group.guestRooms = group.guestRooms.filter(
+                (r) => r.roomType !== roomType
+            );
 
             group.roomTypes.push({
                 roomType,
                 no_of_room: roomCount,
             });
 
-            group.rooms.push(...roomDetails);
+            group.guestRooms.push(...roomDetails);
 
             // Disable confirm button after confirmation
             button.disabled = true;
@@ -373,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let roomHTML = "";
             roomGroup.roomTypes.forEach((rt) => {
-                const matchingRooms = roomGroup.rooms.filter(
+                const matchingRooms = roomGroup.guestRooms.filter(
                     (r) => r.roomType === rt.roomType
                 );
                 const totalAdults = matchingRooms.reduce(
@@ -436,7 +438,9 @@ document.addEventListener("DOMContentLoaded", function () {
         group.roomTypes = group.roomTypes.filter(
             (rt) => rt.roomType !== roomType
         );
-        group.rooms = group.rooms.filter((r) => r.roomType !== roomType);
+        group.guestRooms = group.guestRooms.filter(
+            (r) => r.roomType !== roomType
+        );
 
         // If no more roomTypes, remove the entire group
         if (group.roomTypes.length === 0) {
@@ -476,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const countSelect = form.querySelector(`select[name*="[count]"]`);
         countSelect.value = roomCount;
 
-        const matchingRooms = group.rooms.filter(
+        const matchingRooms = group.guestRooms.filter(
             (r) => r.roomType === roomType
         );
         for (let i = 1; i <= roomCount; i++) {
@@ -499,7 +503,9 @@ document.addEventListener("DOMContentLoaded", function () {
         group.roomTypes = group.roomTypes.filter(
             (rt) => rt.roomType !== roomType
         );
-        group.rooms = group.rooms.filter((r) => r.roomType !== roomType);
+        group.guestRooms = group.guestRooms.filter(
+            (r) => r.roomType !== roomType
+        );
 
         if (group.roomTypes.length === 0) {
             confirmedRooms = confirmedRooms.filter((g) => g.id !== groupId);
@@ -509,8 +515,51 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 });
 
+// Validate phone number
+let phoneIsValid = false;
+
+function validatePhoneNumber(inputId) {
+    const input = document.getElementById(inputId);
+    const phone = input.value.trim();
+
+    const isPersonal = inputId === "personal-phone";
+    const errorDivId = isPersonal
+        ? "phone-error-personal"
+        : "phone-error-business";
+    const errorDiv = document.getElementById(errorDivId);
+
+    const phoneRegex = /^(\+?\d{1,4}[\s-]?)?(\d{10})$/;
+
+    if (!phoneRegex.test(phone)) {
+        errorDiv.style.display = "block";
+        input.classList.add("is-invalid");
+
+        if (isPersonal) {
+            phoneIsValid = false;
+        } else {
+            phoneIsValid = false;
+        }
+    } else {
+        errorDiv.style.display = "none";
+        input.classList.remove("is-invalid");
+
+        if (isPersonal) {
+            phoneIsValid = true;
+        } else {
+            phoneIsValid = true;
+        }
+    }
+}
+
 // Guest Details information
 document.addEventListener("DOMContentLoaded", function () {
+    const submitBtnPersonal = document.getElementById(
+        "personalReservationSubmit"
+    );
+    const submitBtnBusiness = document.getElementById(
+        "businessReservationSubmit"
+    );
+
     document
         .getElementById("personal-form")
         .addEventListener("submit", function (e) {
@@ -528,7 +577,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 address: document
                     .getElementById("personal-address")
                     .value.trim(),
-                requests: document
+                requirements: document
                     .getElementById("personal-requests")
                     .value.trim(),
             };
@@ -556,7 +605,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 address: document
                     .getElementById("business-address")
                     .value.trim(),
-                requests: document
+                requirements: document
                     .getElementById("business-requests")
                     .value.trim(),
             };
@@ -568,7 +617,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (
             confirmedRooms.length === 0 ||
             confirmedRooms[0].roomTypes.length === 0 ||
-            confirmedRooms[0].rooms.length === 0
+            confirmedRooms[0].guestRooms.length === 0
         ) {
             Swal.fire({
                 icon: "warning",
@@ -582,11 +631,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function saveGuestDetails(type, details) {
+        if (!phoneIsValid) {
+            Swal.fire({
+                icon: "warning",
+                title: "Phone is invalid",
+                text: "Please enter valid phone number.",
+                confirmButtonText: "OK",
+            });
+            return;
+        }
+
         if (confirmedRooms.length === 0) {
             confirmedRooms.push({
                 id: Date.now(),
                 roomTypes: [],
-                rooms: [],
+                guestRooms: [],
                 guestType: type,
                 guestDetails: details,
             });
@@ -595,12 +654,52 @@ document.addEventListener("DOMContentLoaded", function () {
             confirmedRooms[0].guestDetails = details;
         }
 
-        console.log("Confirmed Room Guest Details:", confirmedRooms);
-        Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "Guest information saved successfully!",
-            confirmButtonText: "OK",
-        });
+        console.log("Confirmed Room Guest Details:", confirmedRooms[0]);
+        submitBtnPersonal.disabled = true;
+        submitBtnPersonal.innerText = "Submitting...";
+        submitBtnBusiness.disabled = true;
+        submitBtnBusiness.innerText = "Submitting...";
+
+        fetch(window.reservationSubmit, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": window.csrfToken,
+            },
+            body: JSON.stringify(confirmedRooms[0]),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data, "fff");
+                submitBtnPersonal.disabled = false;
+                submitBtnPersonal.innerText = "Book Now";
+                submitBtnBusiness.disabled = false;
+                submitBtnBusiness.innerText = "Book Now";
+
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Reservation Successful",
+                        text:
+                            data.message ||
+                            "Your reservation has been submitted successfully!",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Submission Failed",
+                        text: data.message || "Something is wrong!",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log("Error:", error);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Submission Failed",
+                    text: error.message,
+                });
+            });
     }
 });

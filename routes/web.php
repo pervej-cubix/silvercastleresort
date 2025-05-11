@@ -60,7 +60,7 @@ Route::get(uri: '/room-details/{slug}', action: [HomeController::class, 'roomDet
 Route::post(uri: '/contact-us', action: [HomeController::class, 'contactMail'])->name('contactMail');
 Route::get('/booking-query', action: [HomeController::class, 'bookingQuery'])->name('booking-query');
 // Route::get('/booking-query', [BookingController::class, 'query'])->name('booking-query');
-Route::post('/reservation', [ReservationController::class, 'sendReservationMail']);
+Route::post('/reservation', [ReservationController::class, 'sendReservationMail'])-> name('reservation');
 Route::get(uri: '/hotel-policy', action: [HotelPolicyController::class, 'hotelPolicy'])->name('hotelPolicy');
 Route::post('/reservation-check', [AvailableRoomController::class, 'reservationCheck'])-> name('reservation-check');
 

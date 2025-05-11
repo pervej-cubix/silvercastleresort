@@ -73,21 +73,27 @@
             <h1>Your Reservation Request Has Been Received</h1>
         </div>
         <div class="body">
-            <h2>Dear {{ $data['title'] }} {{ $data['first_name'] }} {{ $data['last_name'] }},</h2>
+            <h2>Dear {{ $data['full_name'] }},</h2>
             <p>Thank you for submitting your reservation request to Grace21 Hotel. We have successfully received your request and are currently reviewing it. You will receive a confirmation soon.</p>
 
             <div class="details">
                 <p><strong>Reservation Summary:</strong></p>
-                <p><strong>Check-In Date:</strong> {{ \Carbon\Carbon::parse($data['checkin_date'])->format('F j, Y') }}</p>
-                <p><strong>Check-Out Date:</strong> {{ \Carbon\Carbon::parse($data['checkout_date'])->format('F j, Y') }}</p>
-                <p><strong>Room Type(s):</strong> {{ $data['room_type'] }}</p>
-                <p><strong>Number of Rooms:</strong> {{ $data['no_of_room'] }}</p>
+                <p><strong>Check-In Date:</strong> {{ \Carbon\Carbon::parse($data['checkin'])->format('F j, Y') }}</p>
+                <p><strong>Check-Out Date:</strong> {{ \Carbon\Carbon::parse($data['checkout'])->format('F j, Y') }}</p>
+
+                <p><strong>Room Type(s):</strong></p>
+                <ul>
+                    @foreach($data['room_types'] as $room)
+                        <li>{{ $room['room_type'] }} - {{ $room['no_of_room'] }} room(s)</li>
+                    @endforeach
+                </ul>
             </div>
 
             <p>If you need further assistance or want to modify your reservation, please don’t hesitate to contact us.</p>
 
-            <a href="mailto:{{ $data['email'] }}" class="btn">Contact Us</a>
+            <a href="mailto:reservation@hotelgrace21.com" class="btn">Contact Us</a>
         </div>
+
 
         <div class="footer">
             <p>We look forward to welcoming you to Grace21 Hotel.</p>

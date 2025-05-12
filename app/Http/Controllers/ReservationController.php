@@ -62,10 +62,10 @@ class ReservationController extends Controller
             $mailData = $reservation->toArray();
 
             // Send to admin
-            // Mail::to('pervej@cubixbd.com')->send(new ReservationMail($mailData));
+            Mail::to('pervej@cubixbd.com')->send(new ReservationMail($mailData));
 
             // Send to guest
-            // Mail::to($reservation->email)->send(new ReservationReceived($mailData)); 
+            Mail::to($reservation->email)->send(new ReservationReceived($mailData)); 
 
             DB::commit();
 
@@ -230,8 +230,10 @@ class ReservationController extends Controller
     {
         $perPage = $request->get('per_page', 10);
 
-        $reservations = Reservation::with(['roomTypes', 'guestRooms'])->paginate($perPage);
-  
+        $reservations = Reservation::with(['roomTypes', 'guestRooms'])
+            ->orderBy('created_at', 'desc') // Sort by latest created first
+            ->paginate($perPage);
+
         return view('admin.pages.room_reservation.manage', compact('reservations'));
     }
 
@@ -240,29 +242,17 @@ class ReservationController extends Controller
         $data = Reservation::with('roomTypes')->findOrFail($id);    
     
         $status = $request->input('confirmation_status');
-    
-        if ($status == "1") {
 
-            // Mail::to($data['email'])->send(new ReservationApproved($data));
+        if ($status == "1") {
+            Mail::to($data['email'])->send(new ReservationApproved($data));
             return back()->with('success', 'Reservation approval email sent successfully!');
         } elseif ($status == "0") {
-            
-            // Mail::to($data['email'])->send(new ReservationCancelled($data));
+            Mail::to($data['email'])->send(new ReservationCancelled($data));
             return back()->with('success', 'Reservation cancellation email sent successfully!');
         } else {
             return back()->with('error', 'Invalid status! Please enter 0 for cancel or 1 for approve.');
         }
     }
-    
-
-    // public function createAvailableReservation(Request $request){        
-        
-    // }
-
-    // public function showAvailableReservation(Request $request){        
-        
-    //     return view('admin.pages.create.manage', compact('reservations'));
-    // }
     
     public function reservationCheckForApi(Request $request){        
         $apiUrl = env('API_URL');      
@@ -332,31 +322,34 @@ class ReservationController extends Controller
     {
         $query = Reservation::query();
 
+           $query = Reservation::query();
+
         if ($request->filled('checkin')) {
-            $query->whereDate('checkin', '>=', $request->checkin);
+            $checkin = Carbon::createFromFormat('d-m-Y', $request->checkin)->format('Y-m-d');
+            $query->whereDate('checkin', '>=', $checkin);
         }
 
         if ($request->filled('checkout')) {
-            $query->whereDate('checkout', '<=', $request->checkout);
+            $checkout = Carbon::createFromFormat('d-m-Y', $request->checkout)->format('Y-m-d');
+            $query->whereDate('checkout', '<=', $checkout);
         }
 
-        if ($request->filled('guest_type')) {
-            $query->where('guest_type', $request->guest_type);
+        if ($request->filled('room_type')) {
+            $query->whereHas('roomTypes', function ($q) use ($request) {
+                $q->where('room_type', 'like', '%' . $request->room_type . '%');
+            });
+        }
+      
+        if ($request->filled('reservation_status')) {
+            $query->where('reservation_status', $request->reservation_status);
         }
 
-        if ($request->filled('email')) {
-            $query->where('email', 'like', '%' . $request->email . '%');
+       $perPage = $request->input('per_page', 10);
+        if ($perPage === 'all') {
+            $reservations = $query->orderBy('checkin', 'asc')->get();
+        } else {
+            $reservations = $query->orderBy('checkin', 'asc')->paginate((int) $perPage)->appends($request->query());
         }
-
-        if ($request->filled('phone')) {
-            $query->where('phone', 'like', '%' . $request->phone . '%');
-        }
-
-        if ($request->filled('country')) {
-            $query->where('country', 'like', '%' . $request->country . '%');
-        }
-
-        $reservations = $query->orderBy('checkin', 'asc')->paginate(10);
 
         return view('admin.pages.room_reservation.manage', compact('reservations'));
     }

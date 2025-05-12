@@ -80,15 +80,11 @@
                             <option value="Deluxe Double" {{ request('room_type') === 'Deluxe Double' ? 'selected' : '' }}>
                                 Deluxe Double
                             </option>
-                            <option value="Super Deluxe" {{ request('room_type') === 'Super Deluxe' ? 'selected' : '' }}>
-                                Super Deluxe
+                         
+                            <option value="Deluxe Twin" {{ request('room_type') === 'Deluxe Twin' ? 'selected' : '' }}>
+                                Deluxe Twin
                             </option>
-                            <option value="Super Deluxe (Twin)" {{ request('room_type') === 'Super Deluxe (Twin)' ? 'selected' : '' }}>
-                                Super Deluxe (Twin)
-                            </option>
-                            <option value="Family Suit (Triple)" {{ request('room_type') === 'Family Suit(Triple)' ? 'selected' : '' }}>
-                                Family Suit (Triple)
-                            </option>
+                        
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -111,19 +107,39 @@
                     <h3 class="card-title">Manage Reservation</h3>
                 </div>
                 <div class="card-body">
-                    @if( session('success') )
-                        <p class="alert alert-success">{{ session('success') }}</p>
+                    @if(session('success'))
+                        <p class="alert alert-success auto-hide">{{ session('success') }}</p>
                     @endif
-                    @if( session('message') )
-                        <p class="alert alert-success">{{ session('message') }}</p>
+
+                    @if(session('message'))
+                        <p class="alert alert-success auto-hide">{{ session('message') }}</p>
                     @endif
-                    @if( session('errorr') )
-                        <p class="alert alert-success">{{ session('error') }}</p>
+
+                    @if(session('error'))
+                        <p class="alert alert-danger auto-hide">{{ session('error') }}</p>
                     @endif
                     <div class="table-responsive">                          
                         <div class="container">                                           
+                            <form method="GET" action="{{ route('reservation.index') }}" class="mb-3">
+                            <div class="d-flex align-items-center">
+                                <label for="per_page" class="me-2">Show</label>
+                                <select name="per_page" id="per_page" onchange="this.form.submit()" class="form-select w-auto">
+                                    @foreach ([10, 25, 50, 100] as $limit)
+                                        <option value="{{ $limit }}" {{ request('per_page', 10) == $limit ? 'selected' : '' }}>
+                                            {{ $limit }}
+                                        </option>
+                                    @endforeach
+                                    <option value="all" {{ request('per_page') == 'all' ? 'selected' : '' }}>All</option>
+                                </select>
+                                <span class="ms-2">entries per page</span>
+                            </div>
+                                {{-- Keep existing filters in the form --}}
+                                @foreach(request()->except('per_page', 'page') as $key => $value)
+                                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                @endforeach
+                            </form>
+                            
                             <!-- Reservation Table -->
-                         <!-- Reservation Table -->
                         <table id="reservation_manage" class="table table-bordered text-nowrap border-bottom">
                             <thead>
                                 <tr>
@@ -231,10 +247,7 @@
                                 @endforeach
                             </tbody>
                         </table>                        
-                            <!-- Pagination Links -->
-                            <div class="d-flex justify-content-center">
-                                {{ $reservations->links() }}
-                            </div>
+                         
                         </div>                                          
                     </div>
                 </div>
@@ -265,4 +278,34 @@
         // Submit the form when 'Yes, Send' is clicked
         document.getElementById('sendMailForm').submit();
     }
+
+    // Send & Approved email or cancellation email
+     function setConfirmationStatus(status) {
+        document.getElementById('confirmation_status').value = status;
+        document.getElementById('sendMailForm').submit();
+    }
+
+    function showModal() {
+        document.getElementById('sendMailModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('sendMailModal').style.display = 'none';
+    }
+
+    // Optional: close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('sendMailModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    setTimeout(() => {
+        document.querySelectorAll('.auto-hide').forEach(el => {
+            el.style.transition = "opacity 0.5s ease";
+            el.style.opacity = 0;
+            setTimeout(() => el.remove(), 500); // Optional: remove from DOM
+        });
+    }, 2000);
 </script>

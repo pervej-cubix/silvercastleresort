@@ -15,7 +15,7 @@
 <section>
     <div class="container mt-5 ">
         <div class="row">
-            <div class="col-md-6  m-4 p-5" style="background: #f8f8f8;">
+            <div class="col-md-6  m-4 p-5" style="background: #F4FFF7;">
                 <div class="loyaltyItem">
                     <a class="diningHeading" style="    color: #09203b; font-size: 25px;font-weight: 600;">
                         {{$with_title->title}}:</a>

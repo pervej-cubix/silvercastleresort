@@ -142,7 +142,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7 text-center m-auto">
-                <h3 style="color: #232B37; font-weight: bold;">Book Now</h3>
+                <h3 style="color: #444444; font-weight: bold;">Book Now</h3>
                 <p class="bookNowText">                  
                   We always have special discount for corporate meeting, booking and reservation.
 
@@ -192,7 +192,7 @@
                         <h5 class="card-title d-flex justify-content-between align-items-center">
                             {{ $accomodation->roomType }}
                             <a href="{{ route('roomDetails', $accomodation->slug) }}" class="text-decoration-none">
-                                <i class="fa-solid fa-arrow-right" style="color: #f56040;"></i>
+                                <i class="fa-solid fa-arrow-right" style="color: #48840b;"></i>
                             </a>
                         </h5>
                         <div class="d-flex justify-content-between room-type-content">
@@ -224,13 +224,12 @@
                                       </span>
                                   </p>
                               @endif
-                                                                  <strong>Occupency:</strong> {{ $accomodation->occupancy }}
-
+                              <strong>Occupency:</strong> {{ $accomodation->occupancy }}
                           </div>                          
                         </div>
         
                         <!-- Add Room Button -->
-                        <button  class="btn btn-sm text-white add-room-btn mt-2" type="button" data-target="#roomForm-{{ $loop->index }}" data-roomtype="{{ $accomodation->roomType }}" style="background: #f56040;">
+                        <button  class="btn btn-sm text-white add-room-btn mt-2" type="button" data-target="#roomForm-{{ $loop->index }}" data-roomtype="{{ $accomodation->roomType }}" style="background: #48840b;">
                             Add Room
                         </button>
         

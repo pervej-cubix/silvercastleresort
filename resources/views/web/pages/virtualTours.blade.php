@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <section style="background-color: #f8f8f8; p-5">
+        <section style="background-color: #F4FFF7; p-5">
             <div class="container mt-5 pb-5">
                 <div class="row">
                     @foreach($virtual_tours as $virtual_tour)
@@ -24,7 +24,6 @@
                         </div>
                     </div>
                     @endforeach
-
                 </div>
             </div>
         </section>

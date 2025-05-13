@@ -6,7 +6,7 @@
 html,
 body {
     overflow-x: hidden;
-    background-color: #f8f8f8;
+    background-color: #F4FFF7;
 }
 </style>
 

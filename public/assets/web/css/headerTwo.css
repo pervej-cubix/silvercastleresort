@@ -1,6 +1,6 @@
 .btn_menuTwo {
     width: 100px;
-    background-color: #232b37;
+    background-color: #444444;
     position: fixed;
 }
 
@@ -15,23 +15,23 @@
     text-decoration: none;
     padding: 5px;
     padding-top: 30px;
-    background-color: #232b37;
+    background-color: #444444;
 }
 
 #click_fixed.open:hover #stick1 {
     width: 18px;
-    background-color: #f56040;
+    background-color: #48840b;
 }
 #click_fixed.open:hover #stick2 {
     width: 31px;
-    background-color: #f56040;
+    background-color: #48840b;
 }
 #click_fixed.open:hover #stick3 {
     width: 25px;
-    background-color: #f56040;
+    background-color: #48840b;
 }
 #click_fixed.open:hover .label_stick {
-    color: #f56040;
+    color: #48840b;
 }
 
 .booknowHomeTwo {
@@ -46,11 +46,11 @@
     text-decoration: none;
     padding: 5px;
     padding-top: 25px;
-    background-color: #232b37;
+    background-color: #444444;
 }
 
 .booknowHomeTwo:hover {
-    color: #f56040;
+    color: #48840b;
 }
 
 .booknow {

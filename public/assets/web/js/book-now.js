@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const nights = calculateNights(checkin.value, checkout.value);
 
             durationHeading.innerHTML = `
-      <div class="row align-items-center g-2 flex-wrap mb-2 mt-4 mb-5">
+      <div class="row align-items-center g-2 flex-wrap mb-2 mt-4 mb-4">
         <div class="col-auto">
           <span class="badge rounded-pill bg-primary px-3 py-2" style="font-size: 16px;">
             ${formatDate(checkin.value)}

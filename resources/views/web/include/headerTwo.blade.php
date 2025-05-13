@@ -1,4 +1,4 @@
-<section>
+<section class="">
     <!-- Full Screen Overlay Menu -->
     <div id="fullscreenMenu" class="overlay">
         <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="row" style="width: 100%;">
+    <div class="d-flex justify-content-between" style="width: 100%;">
         <div class="col-md-4">
             <div class="btn_menuTwo in-left" style="z-index: 2" bis_skin_checked="1" onclick="openMenu()">
                 <div class="animate__animated animate__fadeInLeft animate__slower animate__delay-2s">
@@ -47,7 +47,7 @@
         </div>
         <div class="col-md-4 headerLogo">
             <a href="{{ route('home') }}">
-                <img width="auto" height="140px"
+                <img width="140" height="auto"
                     class="animate__animated animate__fadeInDown animated-slow animate__slower"
                     src="{{asset('/')}}assets/web/media/brand-logo1.png" alt="">
             </a>

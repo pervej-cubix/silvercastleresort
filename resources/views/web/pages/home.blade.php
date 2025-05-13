@@ -32,7 +32,7 @@
                         </p>
                     </div>
                     <div class="col-md-6">
-                        <div style="overflow: hidden; height: 60vh;">
+                        <div style="overflow: hidden; height: auto;">
                             <img class="zoom-out" style="width: 100%;" src="{{ asset($item->image) }}" alt="{{ $item->title }}">
                         </div>
                     </div>
@@ -47,7 +47,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12 text-center">
-                <h3 class="mt-5 hedline underline">What makes silvercastle different?</h3>
+                <h3 class="mt-5 mb-4 hedline underline">What makes silvercastle different?</h3>
             </div>
         </div>
     </div>

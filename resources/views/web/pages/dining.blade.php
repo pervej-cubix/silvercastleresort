@@ -56,7 +56,7 @@
             <div class="col-md-4">
                 <div class="feature-card text-center p-4 shadow-sm rounded-4 h-100">
                     <h6 class="text-muted">Book Your Table</h6>
-                    <h4 class="fw-semibold" style="color: #f56040;">+88 01810 035 005</h4>
+                    <h4 class="fw-semibold" style="color: #48840b;">+88 01810 035 005</h4>
                 </div>
             </div>
         </div>

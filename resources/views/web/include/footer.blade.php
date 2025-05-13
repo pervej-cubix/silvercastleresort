@@ -1,4 +1,4 @@
-<section id="footer" style="background: #232b37">
+<section id="footer" style="background: #444444">
     <div class="container mt-5">
         <div class="row mt-5 pt-5">
             <div class="col-md-4">
@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-6 text-end">
                 <h6 class="foot">
-                    <a href="https://cubixbd.com/">Site By
+                    <a href="https://cubixbd.com/" target="_blank">Site By
                         <img width="50px" src="{{asset('/')}}assets/web/media/cubixbd.png" data-bs-toggle="tooltip"
                             title="Cubix Technology" />
                         <small><strong>Cubix Technology</strong></small>

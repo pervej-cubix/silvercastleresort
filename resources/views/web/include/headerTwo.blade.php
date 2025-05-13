@@ -47,7 +47,7 @@
         </div>
         <div class="col-md-4 headerLogo">
             <a href="{{ route('home') }}">
-                <img width="140" height="auto"
+                <img width="auto" height="130px"
                     class="animate__animated animate__fadeInDown animated-slow animate__slower"
                     src="{{asset('/')}}assets/web/media/brand-logo1.png" alt="">
             </a>

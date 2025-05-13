@@ -74,7 +74,9 @@
             <form action="{{ route('available_room-store') }}" method="POST">
                 @csrf
                 @php
-                    $roomTypes = ['Deluxe Single', 'Deluxe Double', 'Super Deluxe', 'Super Deluxe (Twin)', 'Family Suit (Triple)'];
+                    $roomTypes = ['President Suite', 'Family Suite', 'Golden Suite', 'Family Twin',
+                    'Junior Suite', 'Superior Deluxe',
+                    'Deluxe', 'Deluxe Prime', 'Standard Double', 'Executive Deluxe', 'Executive Prime','Executive Double' ];
                 @endphp
                     <div class="text-center mb-4">
                         <input type="text" class="px-4 py-2 text-center" style="font-size: 18px; font-weight: 600;" readonly name="date" id="selected-date-text">
@@ -91,7 +93,7 @@
                             <tr>
                                 <td>{{ $type }}</td>
                                 <td>
-                                    <input type="number"value="" name="room_types[{{ $type }}]" class="form-control" placeholder="Enter number of rooms" min="0">
+                                    <input type="number"value="" name="room_types[{{ $type }}]" class="form-control" placeholder="Enter number of rooms" min="0" max="50">
                                 </td>
                             </tr>
                         @endforeach

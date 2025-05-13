@@ -20,12 +20,12 @@ body {
         </div>
         <div class="row mt-5">
             <div class="col-md-8 m-auto">
-                <p style="text-align: justify;">Hotel Grace21 offers a refined blend of comfort, luxury, and
+                <p style="text-align: justify;">Silvercastle offers a refined blend of comfort, luxury, and
                     convenience for all types of travelers. From well-appointed Deluxe Rooms to spacious Executive
                     Suites, each accommodation is thoughtfully designed with modern amenities and tasteful interiors.
                     Whether you're visiting for business or leisure, guests can enjoy personalized service, a relaxing
                     atmosphere, and a prime location close to major attractions. With scenic views, cozy ambiance, and
-                    exceptional hospitality, Hotel Grace21 is the perfect destination for a memorable stay</p>
+                    exceptional hospitality, Silvercastle is the perfect destination for a memorable stay</p>
             </div>
         </div>
 

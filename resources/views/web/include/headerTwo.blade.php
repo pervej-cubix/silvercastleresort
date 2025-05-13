@@ -24,7 +24,7 @@
             <a href="{{route('hotelPolicy')}}"
                 class="menuUnderline {{ request()->routeIs('hotelPolicy') ? 'active' : '' }}">Hotel Policy</a>
             <a href="{{route('graceStars')}}"
-                class="menuUnderline {{ request()->routeIs('graceStars') ? 'active' : '' }}">Grace21 Stars</a>
+                class="menuUnderline {{ request()->routeIs('graceStars') ? 'active' : '' }}">Silvercastle Stars</a>
             <a href="{{route('contact')}}"
                 class="menuUnderline {{ request()->routeIs('contact') ? 'active' : '' }}">Contact us</a>
         </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-md-4 headerLogo">
             <a href="{{ route('home') }}">
-                <img width="auto" height="70px"
+                <img width="auto" height="140px"
                     class="animate__animated animate__fadeInDown animated-slow animate__slower"
                     src="{{asset('/')}}assets/web/media/brand-logo1.png" alt="">
             </a>

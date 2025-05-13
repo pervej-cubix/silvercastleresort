@@ -47,14 +47,14 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12 text-center">
-                <h3 class="mt-5 hedline underline">What makes Grace21 different?</h3>
+                <h3 class="mt-5 hedline underline">What makes silvercastle different?</h3>
             </div>
         </div>
     </div>
     <div class="container mt-5">
         <div class="row" style="overflow:hidden;">
             <div class="col-md-6 text-center fade-in" data-animation="fadeInLeft">
-                <img style="width: 100%;" src="{{asset('/')}}assets/web/media/things-to-do.jpg" alt="">
+                <img style="width: 100%;" src="{{asset('/')}}assets/web/media/things-to-do.webp" alt="">
             </div>
             <div class="col-md-6 desc fade-in" data-animation="fadeInRight">
                 <!-- <div class="diffrent-icon"><i class="fa-solid fa-compact-disc"></i></div> -->
@@ -170,9 +170,9 @@
                 <div class="p-4 shadow rounded bg-white text-center">
                     <h4 class="fw-bold mb-3">Contact Us</h4>
                     <p class="mb-1"><strong>Phone:</strong> +880 123 456 789</p>
-                    <p class="mb-1"><strong>Email:</strong> info@hotelgrace21.com</p>
+                    <p class="mb-1"><strong>Email:</strong> info@hotelSilvercastle.com</p>
                     <p class="mb-1"><strong>Address:</strong> Nikunja 2, Dhaka, Bangladesh</p>
-                    <p><strong>Website:</strong> <a href="https://www.hotelgrace21.com/" target="_blank">hotelgrace21.com</a></p>
+                    <p><strong>Website:</strong> <a href="https://www.hotelSilvercastle.com/" target="_blank">hotelSilvercastle.com</a></p>
                 </div>
             </div>
 

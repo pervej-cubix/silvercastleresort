@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <a class="diningHeading">Grace21 Stars</a>
+                <a class="diningHeading">Silvercastle Stars</a>
             </div>
         </div>
     </div>

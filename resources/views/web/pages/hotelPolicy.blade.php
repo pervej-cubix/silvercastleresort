@@ -74,7 +74,7 @@
 
     <!-- Footer Note -->
     <div class="alert alert-info">
-        If you have any questions regarding our policies, please feel free to contact our front desk at <strong>+880 17 0070 7724</strong> or email us at <strong>reservation@hotelgrace21.com</strong>.
+        If you have any questions regarding our policies, please feel free to contact our front desk at <strong>+880 17 0070 7724</strong> or email us at <strong>info@silvercastleresort.com</strong>.
     </div>
 </div>
 

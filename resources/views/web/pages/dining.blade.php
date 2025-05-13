@@ -11,7 +11,7 @@
         </div>
         <div class="row mt-5">
             <div class="col-md-8 m-auto">
-                <p style="text-align: justify;">Hotel Grace21 features a variety of dining options that cater to
+                <p style="text-align: justify;">Silvercastle features a variety of dining options that cater to
                     diverse tastes and preferences, making it a culinary haven for guests. The resort boasts three
                     distinct restaurants: Cafe the Arko, Lobby Cafe, and Roof Top Cafe. <br>
 
@@ -29,7 +29,6 @@
                     of exquisite food and stunning vistas makes it a favorite among guests.</p>
             </div>
         </div>
-
     </div>
 </section>
 <section id="Special-feature">
@@ -57,7 +56,7 @@
             <div class="col-md-4">
                 <div class="feature-card text-center p-4 shadow-sm rounded-4 h-100">
                     <h6 class="text-muted">Book Your Table</h6>
-                    <h4 class="fw-semibold" style="color: #f56040;">+8801700707724</h4>
+                    <h4 class="fw-semibold" style="color: #f56040;">+88 01810 035 005</h4>
                 </div>
             </div>
         </div>

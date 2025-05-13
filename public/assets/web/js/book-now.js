@@ -388,14 +388,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 roomHTML += `
-          <div class="card mb-3 shadow-sm">
-            <div class="card-body">
+          <div class="card mb-1 shadow-sm">
+            <div class="card-body p-2">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="mb-0" style="font-size: 17px;"><strong>Room Type:</strong> ${rt.roomType}</h5>
                 <span class="badge bg-secondary">Rooms: ${rt.no_of_room}</span>
               </div>
 
-              <table class="table table-sm table-bordered mb-3">
+              <table class="table table-sm table-bordered" style="margin-bottom: 0px;">
                 <thead class="table-light">
                   <tr>
                     <th>Adults</th>

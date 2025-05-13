@@ -53,7 +53,7 @@ Route::get(uri: '/recreation', action: [HomeController::class, 'recreation'])->n
 Route::get(uri: '/pay-on-line', action: [HomeController::class, 'payOnLine'])->name('payOnLine');
 Route::get(uri: '/virtual-tours', action: [HomeController::class, 'virtualTours'])->name('virtualTours');
 Route::get(uri: '/photo-gallery', action: [HomeController::class, 'photoGallery'])->name('photoGallery');
-Route::get(uri: '/grace21-star', action: [HomeController::class, 'loyaltyProgram'])->name('graceStars');
+Route::get(uri: '/Silvercastle-star', action: [HomeController::class, 'loyaltyProgram'])->name('graceStars');
 Route::get(uri: '/contact-us', action: [HomeController::class, 'contact'])->name('contact');
 Route::get(uri: '/book-now', action: [HomeController::class, 'bookNow'])->name('bookNow');
 Route::get(uri: '/room-details/{slug}', action: [HomeController::class, 'roomDetails'])->name('roomDetails');

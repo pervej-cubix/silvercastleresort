@@ -28,7 +28,7 @@
         <div class="row">
             <div class="col-md-5 m-auto">
                 <p class="formHeading">
-                    We are here to answer any questions you may have about us. Reach out to us and we'll respond as soon as we can. Even if there is something you have always wanted to experience and can't find it on, let us know and we promise we'll do our best to find it for you and send you there.                    
+                    We give high priority to our customers inquiry. Let us know how can we help you. Write us below.
                 </p>
             </div>
         </div>

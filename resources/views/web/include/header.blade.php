@@ -4,7 +4,7 @@
         position: relative;
     }
 
-    .carousel-item img,
+.carousel-item img,
 .carousel-item video {
     width: 100%;
     height: 100%;
@@ -38,7 +38,7 @@
             <a href="{{route('hotelPolicy')}}"
                 class="menuUnderline {{ request()->routeIs('hotelPolicy') ? 'active' : '' }}">Hotel Policy</a>
             <a href="{{route('graceStars')}}"
-                class="menuUnderline {{ request()->routeIs('graceStars') ? 'active' : '' }}">Grace21 Stars</a>
+                class="menuUnderline {{ request()->routeIs('graceStars') ? 'active' : '' }}">Silvercastle Stars</a>
             {{-- <a href="{{route('hotelPolicy')}}"
                 class="menuUnderline {{ request()->routeIs('hotelPolicy') ? 'active' : '' }}">Hotel Policy</a> --}}
             <a href="{{route('contact')}}"
@@ -47,7 +47,7 @@
     </div>
     <div class="logo animate__animated animate__fadeInDown">
         <a href="{{ route('home') }}">
-            <img width="200px" height="auto" src="{{asset('/')}}assets/web/media/brand-logo.png" alt="">
+            <img width="100px" height="auto" src="{{asset('/')}}assets/web/media/brand-logo.png" alt="">
         </a>
     </div>
     <a href="{{route('bookNow')}}" class="booknowHome animate__animated animate__fadeInRight">

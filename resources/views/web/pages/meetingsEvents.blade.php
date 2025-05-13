@@ -38,7 +38,7 @@
             </div>
             <div class="col-md-4 text-center border py-3">
                 <h5>Book Your Table</h5>
-                <h6>+8801756-424224</h6>
+                <h6>+88 01810 035 005</h6>
             </div>
         </div>
     </div>

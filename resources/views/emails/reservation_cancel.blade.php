@@ -85,12 +85,12 @@
             <p style="margin-top: 30px;">
                 Sincerely,<br>
                 <strong>The Hotel Team</strong><br>
-                <a href="#" style="color: #007B5E; text-decoration: none;">www.hotelgrace21.com</a>
+                <a href="#" style="color: #007B5E; text-decoration: none;">www.silvercastleresort.com</a>
             </p>
         </div>
 
         <div class="footer">
-            &copy; {{ now()->year }} Hotel Grace21. All rights reserved.
+            &copy; {{ now()->year }} Silvercastle Resort. All rights reserved.
         </div>
     </div>
 </body>

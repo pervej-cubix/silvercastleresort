@@ -12,7 +12,7 @@
         </div>
         <div class="row mt-5">
             <div class="col-md-8 m-auto">
-                <p style="text-align: justify;">Hotel Grace21 offers a diverse range of dining options to
+                <p style="text-align: justify;">Silvercastle offers a diverse range of dining options to
                     delight every guest. Our restaurant features an impressive buffet menu, including breakfast, lunch,
                     and dinner, ensuring a variety of delectable dishes to satisfy all palates. For those seeking
                     flexibility, our à la carte menu is available 24/7, allowing guests to enjoy meals at their
@@ -20,10 +20,10 @@
                     and savor freshly brewed beverages. ​
 
                     Our skilled chefs are dedicated to crafting culinary delights that will leave a lasting impression,
-                    making your dining experience at Hotel Grace21 truly memorable. ​
+                    making your dining experience at Silvercastle truly memorable. ​
                     <br/>
-                    For reservations or inquiries, please contact us at +8801700707724 or email
-                    reservation@hotelgrace21.com</p>
+                    For reservations or inquiries, please contact us at +88 01810 035 005 or email
+                    info@silvercastleresort.com</p>
             </div>
         </div>
     </div>

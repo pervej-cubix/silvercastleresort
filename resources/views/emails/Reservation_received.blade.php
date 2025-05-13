@@ -74,7 +74,7 @@
         </div>
         <div class="body">
             <h2>Dear {{ $data['full_name'] }},</h2>
-            <p>Thank you for submitting your reservation request to Grace21 Hotel. We have successfully received your request and are currently reviewing it. You will receive a confirmation soon.</p>
+            <p>Thank you for submitting your reservation request to Silvercastle Hotel. We have successfully received your request and are currently reviewing it. You will receive a confirmation soon.</p>
 
             <div class="details">
                 <p><strong>Reservation Summary:</strong></p>
@@ -91,13 +91,13 @@
 
             <p>If you need further assistance or want to modify your reservation, please don’t hesitate to contact us.</p>
 
-            <a href="mailto:reservation@hotelgrace21.com" class="btn">Contact Us</a>
+            <a href="mailto:info@silvercastleresort.com" class="btn">Contact Us</a>
         </div>
 
 
         <div class="footer">
-            <p>We look forward to welcoming you to Grace21 Hotel.</p>
-            <p>&copy; {{ now()->year }} Grace21 Hotel. All rights reserved.</p>
+            <p>We look forward to welcoming you to Silvercastle Hotel.</p>
+            <p>&copy; {{ now()->year }} Silvercastle Hotel. All rights reserved.</p>
         </div>
     </div>
 </body>

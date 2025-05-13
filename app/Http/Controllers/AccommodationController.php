@@ -31,9 +31,9 @@ class AccommodationController extends Controller
             'rackRate' => 'required|numeric|min:0',
             'discountedRate' => 'required|numeric|min:0',
             'description' => 'nullable|string|max:1000',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'accommodation_gallaries' => 'nullable|array',
-            'accommodation_gallaries.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'accommodation_gallaries.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'status' => 'required|in:0,1',
         ]);
 

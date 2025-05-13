@@ -143,11 +143,11 @@
         <div class="row">
             <div class="col-md-7 text-center m-auto">
                 <h3 style="color: #232B37; font-weight: bold;">Book Now</h3>
-                <p class="bookNowText">
-                    We would like to welcome you to Hotel Grace21. Please fill in the following booking form
-                    and
-                    send it
-                    to us. We will get back to you with confirmation as soon as possible.</p>
+                <p class="bookNowText">                  
+                  We always have special discount for corporate meeting, booking and reservation.
+
+                  Not only corporate but also for any event planning we can give you exactly what you need.
+                </p>
             </div>
         </div>
     </div>
@@ -176,7 +176,7 @@
     <div class="container mt-5 mb-5">
         <div class="row accummodationBody">
             @foreach ($accommodations as $accomodation)
-            <div class="itemAccummo col-md-4 col-12 mb-4 fade-in">
+            <div class="itemAccummo col-md-3 col-sm-4 col-12 mb-4 fade-in">
         
                 <!-- Card Container -->
                 <div class="card shadow-lg border-0 rounded-4 overflow-hidden">        
@@ -188,7 +188,7 @@
                              alt="{{ $accomodation->roomType }}">
                     </a>        
                     <!-- Card Body -->
-                    <div class="card-body room-type-card-body p-4 bg-light">
+                    <div class="card-body room-type-card-body p-3 bg-light">
                         <h5 class="card-title d-flex justify-content-between align-items-center">
                             {{ $accomodation->roomType }}
                             <a href="{{ route('roomDetails', $accomodation->slug) }}" class="text-decoration-none">
@@ -200,7 +200,6 @@
                                 <p class="card-text"><strong>Room Type:</strong> Grand King</p>
                                 <p class="card-text">
                                     <strong>Size:</strong> {{ $accomodation->roomSize }}
-                                    {{-- <strong>Total Room:</strong> {{ $accomodation->noRoom }} --}}
                                 </p>
                             </div>
                             <div>
@@ -225,6 +224,8 @@
                                       </span>
                                   </p>
                               @endif
+                                                                  <strong>Occupency:</strong> {{ $accomodation->occupancy }}
+
                           </div>                          
                         </div>
         

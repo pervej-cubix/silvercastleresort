@@ -3,10 +3,10 @@
         <div class="row mt-5 pt-5">
             <div class="col-md-4">
                 <a href="{{ route('home') }}">
-                    <!--<img width="auto" height="80px" src="{{asset('/')}}assets/web/media/brand-logo.png" alt="">-->
-                    <img width="auto" height="60px"
+                    <img width="100px" height="auto"
                     src="{{asset('/')}}assets/web/media/brand-logo.png" alt="">
                 </a>
+                <h6 class="mt-3 text-white">Available at 7:30am To 11:30pm</h6>
                 <h3 class="follow_us my-3" style="color: #f5f5f5;">Follow us</h3>
                 <div class="footerItem">
                     <a class="ps-0" href="{{$social_link->fb_link}}" target="_blank"><i
@@ -24,13 +24,12 @@
                 </div>
                 <div class="d-flex gap-3 align-items-center">
                     <h3 style="color: white;"><i class="fa-solid fa-envelope"></i></h3>
-                    <h3 class="text-light">reservation@hotelgrace21.com</h3>
+                    <h3 class="text-light">info@silvercastleresort.com</h3>
                 </div>
                 <div class="d-flex gap-3 align-items-center">
                     <h3 style="color: white;"><i class="fa-solid fa-location-dot"></i></h3>
                     <h3 class="pt-2 pb-0 text-light">
-                        House #1 & 3, Road #21, Nikunja 2,
-                        Dhaka-1229, Bangladesh
+                        337/2, Dholadia, Taltola 2200 Mymensingh.
                     </h3>
                 </div>
             </div>
@@ -46,7 +45,7 @@
         <div class="row">
             <hr class="text-white">
             <div class="col-md-6">
-                <h6 class="foot">© 2024.Hotel Grace21. All right reserved</h6>
+                <h6 class="foot">Copyright@ 2021 Silver Castle Resort</h6>
             </div>
             <div class="col-md-6 text-end">
                 <h6 class="foot">

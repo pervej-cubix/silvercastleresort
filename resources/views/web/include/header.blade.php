@@ -96,7 +96,7 @@
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             @foreach($homepage_sliders as $index => $slider)
-                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}" data-bs-interval=" {{$slider->fileType == "video" ? 8000  : 3000}}">
                     <div class="carousel-overlay"></div> <!-- Dark overlay -->
                     @if($slider->fileType == 'video')
                         <video class="be-bg-video d-block w-100" autoplay="autoplay" loop="loop" muted="muted" preload="auto">

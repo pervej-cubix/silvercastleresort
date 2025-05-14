@@ -166,7 +166,7 @@ class HomeController extends Controller
         $data = $request->except('_token');
 
         try {
-            Mail::to('pervej@cubixbd.com')->send(new ContactMail($data));
+            // Mail::to('pervej@cubixbd.com')->send(new ContactMail($data));
 
             return back()->with('success', 'Your message has been sent successfully!');
 
